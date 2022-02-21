@@ -8,7 +8,7 @@
 {% endblock %}
 {% block breadcrumb %}
 <ol class="breadcrumb">
-    <li><a href="{{url('dashboard')}}">Accueil</a></li>
+    <li><a href="{{url('dashboard')}}">Accueil oj</a></li>
     <li><i class="fa fa-angle-right"></i> utilisateurs</li>
 </ol>
 {% endblock %}
