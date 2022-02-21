@@ -34,17 +34,15 @@ Historique des emprunts
 				<tr>
 					<th>ID #</th>
 					<th>Nom complet</th>
+					<th>Matricule</th>
 					<th>Nom du livre</th>
-					<th>ISBN</th>
 					<th>Rôle</th>
-					<th>Rangées</th>
-					<th>Casiers</th>
-					<th>Nbre pages</th>
 					<th>Date d'emprunt</th>
 					<th>Date de retour</th>
 					<th>Délai de retour</th>
 					<th>Status</th>
 					<th>Amende (en F CFA )</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -53,90 +51,85 @@ Historique des emprunts
 					<td>{{k+1}}</td>
 					<td>{{emprunt.prenom}}
 					{{emprunt.nom}}</td>
-					<td>{{emprunt.nom_livre}}</td>
 					<td>
-						<span class="label label-primary">{{emprunt.isbn}}</span>
-					</td>
-					<td>
-						<span class="label label-primary">{{emprunt.role}}</span>
-					</td>
+						<span class="label label-primary">{{emprunt.matricule}}
+						</span></td>
+						<td>{{emprunt.nom_livre}}</td>
+						<td>
+							<span class="label label-primary">{{emprunt.role}}</span>
+						</td>
+						<td>
+							<span class="label label-warning">{{date('d-m-Y',strtotime(emprunt.date_emprunt))}}</span>
+						</td>
+						<td>
+							{% if emprunt.retour_emprunt == "" or emprunt.retour_emprunt == NULL %}
+							<span class="label label-danger">
+								Non retourné
+							</span>
+							{% else %}
 
-					<td>
-						<span class="label label-warning">{{emprunt.id_ranger}}</span>
-					</td>
-					<td>
-						<span class="label label-warning">{{emprunt.id_casier}}</span>
-					</td>
-					<td>
-						<span class="label label-warning">{{emprunt.nbre_page}}</span>
-					</td>
-					<td>
-						<span class="label label-warning">{{date('d-m-Y',strtotime(emprunt.date_emprunt))}}</span>
-					</td>
-					<td>
-						{% if emprunt.retour_emprunt == "" or emprunt.retour_emprunt == NULL %}
-						<span class="label label-danger">
-							Non retourné
-						</span>
+							<span class="label label-success">
+								{{date('d/m/Y',strtotime(emprunt.retour_emprunt))}}
+							</span>
+						</td>
+
+						{% endif %}
+
+						<td>
+							{% if emprunt.retour_emprunt == "" or emprunt.retour_emprunt == NULL %}
+							<span class="label label-danger">{{date('d-m-Y',strtotime(emprunt.delai_livre))}}</span>
+
+							<?php
+								$date1 = new DateTime("now");
+								$date2 = new DateTime($emprunt->delai_livre . ' 23:59:59.999999');
+							?>
+
+							<?php if ($date1 > $date2) : ?>
+
+							<br><span class="label label-danger">
+							Délai expiré</span>
+
+							<?php endif ?>
+
+						</td>
 						{% else %}
+						<span class="label label-success">Retourné</span>
+						{% endif %}
+						<td>
+							<?php
+								$date1 = new DateTime($emprunt->retour_emprunt);
+								$date2 = new DateTime($emprunt->delai_livre . ' 23:59:59.999999');
+							?>
 
-						<span class="label label-success">
-							{{date('d/m/Y',strtotime(emprunt.retour_emprunt))}}
-						</span>
-					</td>
+							<?php 
+								if (($date1 <= $date2) && $emprunt->amende != NULL) : ?>
+									<span class="fa fa-circle" style="color:#00ff51;"></span>
+									Retourner à temps
 
-					{% endif %}
+									<?php endif ?>
+									<?php if (($date1 > $date2) && $emprunt->amende != NULL ) : ?>
+									<span class="fa fa-circle" style="color:#ff0000;"></span>
+									Retourner en retard
 
-					<td>
-						{% if emprunt.retour_emprunt == "" or emprunt.retour_emprunt == NULL %}
-						<span class="label label-danger">{{date('d-m-Y',strtotime(emprunt.delai_livre))}}</span>
-
-						<?php
-							$date1 = new DateTime("now");
-							$date2 = new DateTime($emprunt->delai_livre . ' 23:59:59.999999');
-						?>
-
-						<?php if ($date1 > $date2) : ?>
-
-						<br><span class="label label-danger">
-						Délai expiré</span>
-
-						<?php endif ?>
-
-					</td>
-					{% else %}
-					<span class="label label-success">Retourné</span>
-					{% endif %}
-					<td>
-						<?php
-							$date1 = new DateTime($emprunt->retour_emprunt);
-							$date2 = new DateTime($emprunt->delai_livre . ' 23:59:59.999999');
-						?>
-
-						<?php 
-							if (($date1 <= $date2) && $emprunt->amende != NULL) : ?>
-								<span class="fa fa-circle" style="color:#00ff51;"></span>
-								Retourner à temps
-
-								<?php endif ?>
-								<?php if (($date1 > $date2) && $emprunt->amende != NULL ) : ?>
-								<span class="fa fa-circle" style="color:#ff0000;"></span>
-								Retourner en retard
-
-								<?php endif ?>
-							</td>
-							<td>
-								<span class="label label-danger">{{emprunt.amende}}</span>
-							</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
+									<?php endif ?>
+								</td>
+								<td>
+									<span class="label label-danger">{{emprunt.amende}}</span>
+								</td>
+								<td>
+									<a href="{{url('emprunt/details/'~emprunt.id)}}" title="Details de l'emprunt">
+										<i class="fa fa-eye"></i>
+									</a>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
 			</div>
-		</div>
-		{% endblock %}
-		{% block addjs %}
-		<!-- DataTable -->
-		<script src="{{url('template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-		<script src="{{url('template/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
-		{% endblock %}
+			{% endblock %}
+			{% block addjs %}
+			<!-- DataTable -->
+			<script src="{{url('template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+			<script src="{{url('template/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+			{% endblock %}

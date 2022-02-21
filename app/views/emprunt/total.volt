@@ -34,17 +34,15 @@ emprunts
 				<tr>
 					<th>ID #</th>
 					<th>Nom complet</th>
+					<th>Matricule</th>
 					<th>Nom du livre</th>
-					<th>ISBN</th>
 					<th>Rôle</th>
-					<th>Rangées</th>
-					<th>Casiers</th>
-					<th>Nbre pages</th>
 					<th>Date d'emprunt</th>
 					<th>Date de retour</th>
 					<th>Délai de retour</th>
 					<th>Status</th>
 					<th>Amende (en F CFA )</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -53,22 +51,12 @@ emprunts
 					<td>{{k+1}}</td>
 					<td>{{emprunt.prenom}}
 					{{emprunt.nom}}</td>
+					<td>
+						<span class="label label-primary">{{emprunt.matricule}}</span>
+					</td>
 					<td>{{emprunt.nom_livre}}</td>
 					<td>
-						<span class="label label-primary">{{emprunt.isbn}}</span>
-					</td>
-					<td>
 						<span class="label label-primary">{{emprunt.role}}</span>
-					</td>
-
-					<td>
-						<span class="label label-warning">{{emprunt.id_ranger}}</span>
-					</td>
-					<td>
-						<span class="label label-warning">{{emprunt.id_casier}}</span>
-					</td>
-					<td>
-						<span class="label label-warning">{{emprunt.nbre_page}}</span>
 					</td>
 					<td>
 						<span class="label label-warning">{{date('d-m-Y',strtotime(emprunt.date_emprunt))}}</span>
@@ -127,6 +115,11 @@ emprunts
 							</td>
 							<td>
 								<span class="label label-danger">{{emprunt.amende}}</span>
+							</td>
+							<td>
+							<a href="{{url('emprunt/details/'~emprunt.id)}}" title="Details de l'emprunt">
+								<i class="fa fa-eye"></i>
+							</a>
 							</td>
 						</tr>
 						{% endfor %}
