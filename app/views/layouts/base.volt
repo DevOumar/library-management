@@ -164,7 +164,10 @@
           {% endif %}
 
           <li><a href="{{url('user')}}"><i class="fa fa-user"></i><span>Utilisateurs</span></a></li>
-          
+
+          {% if in_array(session.role, ['ETUDIANT','PROFESSEUR']) %}
+          <li><a href="{{url('emprunt/historique_emprunt')}}"><i class="fa fa-user"></i><span>Historique des emprunts</span></a></li>
+          {% endif %}
           {% if session.role == 'ADMINISTRATEUR' %}
           <li class="">
             <a href="#"><i class="fa fa-book"></i> <span>Affectation des emprunts</span></a>
@@ -232,6 +235,7 @@
     <!-- dropify --> 
     <script src="{{url('template/plugins/dropify/dropify.min.js')}}"></script> 
     <script src="{{url('js/function.js')}}"></script>
+
     <script type="{{('text/javascript')}}">
     $(".select2").select2({ 'data-placeholder': 'Choisir...' });
     </script>
@@ -246,6 +250,7 @@
                });
    });
     </script>
+
     {% block addjs %}{% endblock %}
   </body>
   </html>

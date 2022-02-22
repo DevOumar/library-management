@@ -2,7 +2,7 @@
 {% block title %}Historique Emprunt
 {% endblock %}
 {% block pageTitle %}
-Historique des emprunts
+Historique de mes emprunts
 {% endblock %}
 {% block addcss %}
 <!-- DataTables -->
@@ -36,14 +36,14 @@ Historique des emprunts
 	</li>
 	<li>
 		<i class="fa fa-angle-right"></i>
-		historique des emprunts
+		historique de mes emprunts
 	</li>
 
 </ol>
 {% endblock %}
 {% block content %}
 <div class="info-box">
-	<h4 class="text-black">Liste({{emprunt_jour |length}})
+	<h4 class="text-black">Liste({{emprunt_filter_etudiant |length}})
 
 	</h4>
 	<hr />
@@ -65,7 +65,7 @@ Historique des emprunts
 				</tr>
 			</thead>
 			<tbody>
-				{% for k,emprunt in emprunt_jour %}
+				{% for k,emprunt in emprunt_filter_etudiant %}
 				<tr>
 					<td>{{k+1}}</td>
 					<td>{{emprunt.prenom}}

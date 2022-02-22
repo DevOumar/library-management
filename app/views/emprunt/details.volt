@@ -7,7 +7,9 @@
 {% block pageTitle %} Détail Emprunt{% endblock %}
 {% block breadcrumb %}
 <ol class="breadcrumb">
+  {% if session.role == "ADMINISTRATEUR"%}
   <li><a href="{{url('emprunt')}}">Emprunt</a></li>
+  {% endif %}
   <li><i class="fa fa-angle-right"></i> Détail Emprunt</li>
 </ol>
 {% endblock %}
@@ -102,9 +104,11 @@
           Retourner en retard
 
           <?php endif ?>
+          {% if session.role == "ADMINISTRATEUR" %}
           <div class="card-footer text-left">
-            <a href="{{url('emprunt')}}" class="btn btn-default">Annuler</a>
+            <a href="{{url('emprunt')}}" class="btn btn-default">Retourner</a>
           </div>
+          {% endif %}
         </div>
         <!-- /.box-body --> 
       </div>

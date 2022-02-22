@@ -10,7 +10,6 @@ class EmpruntController extends ControllerBase
  public function indexAction($type = null)
  {
 
-
     $user_id = $this->session->get('id');
     $user = Users::findFirst($user_id);
 
@@ -26,9 +25,10 @@ class EmpruntController extends ControllerBase
             $this->view->emprunts = Emprunt::find(["retour_status = 0 AND user_id = '" . $user->id . "'"]);
 
         }
-    } else {
+
+    }else{
         $this->view->emprunts = Emprunt::find();
-    }
+    } 
 
         // Total livre emprunté partie dashboard
     if ($type == "livres_empruntes") {
@@ -43,6 +43,7 @@ class EmpruntController extends ControllerBase
         }
 
     }
+
 
 }
 
@@ -80,6 +81,7 @@ public function totalAction($filter = null)
     $emprunt_jour = $builder->getQuery()->execute();
     $this->view->emprunt_jour = $emprunt_jour;
 
+
 }
 
 public function historiqueAction()
@@ -88,21 +90,76 @@ public function historiqueAction()
         $this->response->redirect("errors/show403");
         return;
     }
+    
+    $date_filter = "";
+    if ($this->request->isPost()) {
+        $start_date_filter = $this->request->getPost('start_date') ? $this->request->getPost('start_date') : "";
+        $end_date_filter = $this->request->getPost('end_date') ? $this->request->getPost('end_date') : "";
+        $date_filter_chosen_label = $this->request->getPost("date_filter_chosen_label");
+        if (strlen($start_date_filter) == 10 && strlen($end_date_filter) == 10) {
+            $date_filter = "&start_date={$start_date_filter}&end_date={$end_date_filter}";
+            $this->view->start_date = $start_date_filter;
+            $this->view->end_date = $end_date_filter;
+            $this->view->date_filter_chosen_label = $date_filter_chosen_label;
+        }
+    }
 
-    $today = date('Y-m-d');
-    $mois = $this->mois($today);
+
     if ($this->session->get('role') == "ADMINISTRATEUR") {
         $builder = $this->modelsManager->createBuilder();
         $req = $builder->columns("e.id, e.user_id, e.id_livre, e.date_emprunt, e.retour_emprunt, e.retour_status, e.delai_livre, e.amende, DATE_FORMAT(e.create_date, '%d/%m/%Y \à %H:%i') as ajoute_le, u.nom, u.prenom, u.role, u.matricule, l.nom_livre, l.isbn, l.id_ranger, l.id_casier, l.nbre_page ")
         ->addfrom("Emprunt", "e")
         ->join('Users', 'e.user_id = u.id', 'u')
         ->join('Livre', 'e.id_livre = l.id', 'l')
-        ->where("DATE_FORMAT(e.create_date,'%Y-%m-%d') BETWEEN '".$mois['first']."' AND '".$mois['last']."'")
+        ->where("DATE_FORMAT(e.create_date,'%Y-%m-%d') BETWEEN '".$start_date_filter."' AND '".$end_date_filter."'")
         ;
         $emprunt_jour = $builder->getQuery()->execute();
         $this->view->emprunt_jour = $emprunt_jour;
 
     }
+}
+
+public function historiqueEmpruntAction()
+{
+
+    if ($this->session->role === "ADMINISTRATEUR") {
+        $this->response->redirect("errors/show403");
+        return;
+    }
+
+    $date_filter = "";
+    if ($this->request->isPost()) {
+        $start_date_filter = $this->request->getPost('start_date') ? $this->request->getPost('start_date') : "";
+        $end_date_filter = $this->request->getPost('end_date') ? $this->request->getPost('end_date') : "";
+        $date_filter_chosen_label = $this->request->getPost("date_filter_chosen_label");
+        if (strlen($start_date_filter) == 10 && strlen($end_date_filter) == 10) {
+            $date_filter = "&start_date={$start_date_filter}&end_date={$end_date_filter}";
+            $this->view->start_date = $start_date_filter;
+            $this->view->end_date = $end_date_filter;
+            $this->view->date_filter_chosen_label = $date_filter_chosen_label;
+        }
+    }
+
+
+    $user_id = $this->session->get('id');
+    $user = Users::findFirst($user_id);
+    $builder = $this->modelsManager->createBuilder();
+    $req = $builder->columns("e.id, e.user_id, e.id_livre, e.date_emprunt, e.retour_emprunt, e.retour_status, e.delai_livre, e.amende, DATE_FORMAT(e.create_date, '%d/%m/%Y \à %H:%i') as ajoute_le, u.nom, u.prenom, u.role, u.matricule, l.nom_livre, l.isbn, l.id_ranger, l.id_casier, l.nbre_page ")
+    ->addfrom("Emprunt", "e")
+    ->join('Users', 'e.user_id = u.id', 'u')
+    ->join('Livre', 'e.id_livre = l.id', 'l');
+
+    if($this->session->get('role') == 'ETUDIANT'){
+        $req->where("DATE_FORMAT(e.create_date,'%Y-%m-%d') BETWEEN '".$start_date_filter."' AND '".$end_date_filter."' AND user_id = '" . $user->id . "'");
+    }
+
+    if($this->session->get('role') == 'PROFESSEUR'){
+        $req->where("DATE_FORMAT(e.create_date,'%Y-%m-%d') BETWEEN '".$start_date_filter."' AND '".$end_date_filter."' AND user_id = '" . $user->id . "'");
+    }
+
+    $emprunt_filter_etudiant = $builder->getQuery()->execute();
+    $this->view->emprunt_filter_etudiant = $emprunt_filter_etudiant;
+
 }
 
 public function newAction()
