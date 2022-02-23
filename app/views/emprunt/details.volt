@@ -84,7 +84,7 @@
       {% endif %}
       <hr>
       <strong><i class="fa fa-spinner margin-r-5"></i> Amende:</strong>
-        <span class="pull-right label label-warning">{{emprunt.amende}} </span>
+      <span class="pull-right label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', ' ')}} </span>
       <hr>
       {% if emprunt.amende is defined %}
       <label>Status:</label>
@@ -107,6 +107,10 @@
           {% if session.role == "ADMINISTRATEUR" %}
           <div class="card-footer text-left">
             <a href="{{url('emprunt')}}" class="btn btn-default">Retourner</a>
+          </div>
+          {% else %}
+          <div class="card-footer text-left">
+            <a href="{{url('emprunt/index/livres_empruntes')}}" class="btn btn-default">Retourner</a>
           </div>
           {% endif %}
         </div>

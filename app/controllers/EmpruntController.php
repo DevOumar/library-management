@@ -10,6 +10,11 @@ class EmpruntController extends ControllerBase
  public function indexAction($type = null)
  {
 
+    if ($this->session->role != "ADMINISTRATEUR" && $type == null) {
+        $this->response->redirect("errors/show403");
+        return;
+    }
+
     $user_id = $this->session->get('id');
     $user = Users::findFirst($user_id);
 
@@ -211,16 +216,26 @@ public function newAction()
 
 public function detailsAction($id){
 
+    $user_id = $this->session->get('id');
+    $user = Users::findFirst($user_id);
 
     if($id > 0){
         $emprunt = Emprunt::findFirst($id);
 
-        if(!$emprunt){
-            $this->flash->error("Objet introuvable !"); 
-            $this->response->redirect("emprunt");
+        if(!$emprunt ){
+          
+            $this->response->redirect("errors/show404");
 
             return;
         }
+
+        if ($this->session->role != "ADMINISTRATEUR") {
+            if ($user_id !== $emprunt->user_id) {
+                $this->response->redirect("errors/show403");
+                return;
+            }
+        }
+        
 
         $this->view->emprunt = $emprunt;
 

@@ -155,37 +155,37 @@
         <li class="">
           <a href="#"><i class="fa fa-book"></i> <span>Livres</span></a>
           <ul class="sub-menu">
-            <li><a href="{{url('livre')}}">Livres disponibles</a></li>
-            <li><a href="{{url('livres-numeriques')}}">Livres numériques</a></li>
+            <li><a href="{{url('livre')}}"><i class="fa fa-book"></i>Livres disponibles</a></li>
+            <li><a href="{{url('livres-numeriques')}}"><i class="fa fa-book"></i>Livres numériques</a></li>
           </ul>
         </li>
         {% if in_array(session.role, ['ADMINISTRATEUR','PROFESSEUR']) or in_array(session.libelle, ['LICENCE','MASTER','DOCTORAT']) %}
         <li><a href="{{url('memoire')}}"><i class="fa fa-folder"></i> <span>Mémoires</span></a> 
           {% endif %}
 
-          <li><a href="{{url('user')}}"><i class="fa fa-user"></i><span>Utilisateurs</span></a></li>
+          <li><a href="{{url('user')}}"><i class="fa fa-user-circle "></i><span>Utilisateurs</span></a></li>
 
           {% if in_array(session.role, ['ETUDIANT','PROFESSEUR']) %}
-          <li><a href="{{url('emprunt/historique_emprunt')}}"><i class="fa fa-user"></i><span>Historique des emprunts</span></a></li>
+          <li><a href="{{url('emprunt/historique_emprunt')}}"><i class="fa fa-circle-o"></i><span>Historique des emprunts</span></a></li>
           {% endif %}
           {% if session.role == 'ADMINISTRATEUR' %}
           <li class="">
-            <a href="#"><i class="fa fa-book"></i> <span>Affectation des emprunts</span></a>
+            <a href="#"><i class="fa fa-spinner"></i> <span>Affectation des emprunts</span></a>
             <ul class="sub-menu">
-              <li><a href="{{url('emprunt')}}">Affecter un emprunt</a></li>
-              <li><a href="{{url('emprunt/historique')}}">Historique des emprunts</a></li>
+              <li><a href="{{url('emprunt')}}"><i class="fa fa-circle-o"></i>Affecter un emprunt</a></li>
+              <li><a href="{{url('emprunt/historique')}}"><i class="fa fa-circle-o"></i>Historique des emprunts</a></li>
             </ul>
           </li>
           {% endif %}
           {% if session.role == 'ADMINISTRATEUR' %}
           <li class="">
-            <a href="#"><i class="fa fa-table"></i> <span>Configurations</span></a>
+            <a href="#"><i class="fa fa-cog"></i> <span>Configurations</span></a>
             <ul class="sub-menu">
-              <li><a href="{{url('categorie')}}">Catégorie</a></li>
-              <li><a href="{{url('cycle')}}">Cycle</a></li>
-              <li><a href="{{url('ranger')}}">Rangée</a></li>
-              <li><a href="{{url('casier')}}">Casier</a></li>
-              <li><a href="{{url('filiere')}}">Filière</a></li>
+              <li><a href="{{url('categorie')}}"><i class="fa fa-cog"></i>Catégorie</a></li>
+              <li><a href="{{url('cycle')}}"><i class="fa fa-cog"></i>Cycle</a></li>
+              <li><a href="{{url('ranger')}}"><i class="fa fa-cog"></i>Rangée</a></li>
+              <li><a href="{{url('casier')}}"><i class="fa fa-cog"></i>Casier</a></li>
+              <li><a href="{{url('filiere')}}"><i class="fa fa-cog"></i>Filière</a></li>
             </ul>
           </li>
           {% endif %}

@@ -33,7 +33,7 @@
     <div class="login-box-body sty1">
       <div class="login-logo">
 
-        <img src="{{url('img/logo-login.jpeg')}}" alt="logo" width="250">
+     {#  <img src="{{url('img/logo-login.jpeg')}}" alt="logo" width="250">#}
 
       </div>
       <p class="login-box-msg">Veuillez-vous connecter</p>
