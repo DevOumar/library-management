@@ -15,7 +15,7 @@
 {% block content %}
 {{flash.output()}}
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col-lg-4">
     <div class="user-profile-box m-b-3" style="padding:0;">
       {% if session.role == "ADMINISTRATEUR" %}
       <a href="{{url('livre/edit/'~livre.id)}}" class="pull-right btn btn-default btn-xs" title="Modifier"><i class="fa fa-edit"></i></a>{% endif %}
@@ -26,8 +26,9 @@
         
       </div>
     </div>
+    </div>
+    <div class="col-lg-8">
     <div class="info-box">
-      <div class="box-body"> 
         <strong><i class="fa fa-spinner margin-r-5"></i> Nom du livre:</strong>
         <span class="text-muted pull-right">{{livre.nom_livre}}</span>
         <hr>
@@ -35,7 +36,7 @@
         <span class="pull-right label label-warning">{{livre.getCategorie().libelle}}</span>
         <hr>
         <strong><i class="fa fa-user margin-r-5"></i> Auteur:</strong>
-        <span class="pull-right label label-primary">{{livre.getAuteur().nom_auteur}}</span>
+        <span class="pull-right label label-warning">{{livre.getAuteur().nom_auteur}}</span>
         <hr>
         <strong><i class="fa fa-spinner margin-r-5"></i> ISBN:</strong>
         <span class="pull-right label label-warning">{{livre.isbn}} </span>
@@ -56,7 +57,12 @@
         <span class="pull-right label label-danger">{{livre.getQteStock()}} </span>
       </div>
       <!-- /.box-body --> 
+    
+      <div class="text-left">
+        <a href="{{url('livre')}}" class="btn btn-default">Retourner</a>
+      </div>
     </div>
+
   </div>
   
   {% endblock %}

@@ -108,7 +108,7 @@
                     <i class="icon-layers"></i>
                 </span>
                 <div class="info-box-content">
-                    <span class="info-box-number">{{emprunt_jour |length}}</span>
+                    <span class="info-box-number">{{totalEmpruntEtudiant |length}}</span>
                     <span class="info-box-text">Total Livres empruntés | Étudiant</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -127,7 +127,7 @@
                     <i class="icon-layers"></i>
                 </span>
                 <div class="info-box-content">
-                    <span class="info-box-number">{{livres_retournes_etudiant |length}}</span>
+                    <span class="info-box-number">{{totalEmpruntRetounerEtudiant |length}}</span>
                     <span class="info-box-text">Total Livres retournés | Étudiant</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -146,7 +146,7 @@
                     <i class="icon-layers"></i>
                 </span>
                 <div class="info-box-content">
-                    <span class="info-box-number">{{livres_empruntes_professeur |length}}</span>
+                    <span class="info-box-number">{{totalEmpruntProfesseur |length}}</span>
                     <span class="info-box-text">Total Livres empruntés | Professeur</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -165,7 +165,7 @@
                     <i class="icon-layers"></i>
                 </span>
                 <div class="info-box-content">
-                    <span class="info-box-number">{{livres_retournes_professeur |length}}</span>
+                    <span class="info-box-number">{{totalEmpruntRetounerProfesseur |length}}</span>
                     <span class="info-box-text">Total Livres retournés | Professeur</span>
                 </div>
                 <!-- /.info-box-content -->

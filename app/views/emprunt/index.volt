@@ -44,20 +44,15 @@ Emprunt
 			<tr>
 				<th>ID #</th>
 				<th>Nom complet</th>
+				<th>Matricule</th>
 				<th>Nom du livre</th>
-				<th>ISBN</th>
 				<th>Rôle</th>
-				<th>Rangées</th>
-				<th>Casiers</th>
-				<th>Nbre pages</th>
 				<th>Date d'emprunt</th>
 				<th>Date de retour</th>
 				<th>Délai de retour</th>
 				<th>Status</th>
 				<th>Amende (en F CFA )</th>
-				{% if session.role == "ADMINISTRATEUR" %}
 				<th>Action</th>
-				{% endif %}
 			</tr>
 		</thead>
 		<tbody>
@@ -66,22 +61,12 @@ Emprunt
 				<td>{{k+1}}</td>
 				<td>{{emprunt.getUsers().prenom}}
 				{{emprunt.getUsers().nom}}</td>
+				<td>
+					<span class="label label-primary">{{emprunt.getUsers().matricule}}</span>
+				</td>
 				<td>{{emprunt.getLivre().nom_livre}}</td>
 				<td>
-					<span class="label label-primary">{{emprunt.getLivre().isbn}}</span>
-				</td>
-				<td>
 					<span class="label label-primary">{{emprunt.getUsers().role}}</span>
-				</td>
-
-				<td>
-					<span class="label label-warning">{{emprunt.getLivre().id_ranger}}</span>
-				</td>
-				<td>
-					<span class="label label-warning">{{emprunt.getLivre().id_casier}}</span>
-				</td>
-				<td>
-					<span class="label label-warning">{{emprunt.getLivre().nbre_page}}</span>
 				</td>
 				<td>
 					<span class="label label-warning">{{date('d-m-Y',strtotime(emprunt.date_emprunt))}}</span>
@@ -139,10 +124,10 @@ Emprunt
 							<?php endif ?>
 						</td>
 						<td>
-							<span class="label label-danger">{{emprunt.amende}}</span>
+							<span class="label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', ' ')}}</span>
 						</td>
 
-						{% if in_array(session.role, ['ADMINISTRATEUR']) %}
+						
 						<td>
 							{% if session.role == "ADMINISTRATEUR" %}
 							{% if emprunt.retour_status == 1 %}
@@ -153,12 +138,16 @@ Emprunt
 							<a href="{{url('emprunt/edit/'~emprunt.id)}}" title="Modifier">
 								<i class="fa fa-edit"></i>
 							</a>
-							<a href="#" class="supelm" data-id={{emprunt.id}}>
+							
+							<a href="#" title="Supprimer" class="supelm" data-id={{emprunt.id}}>
 								<i class="fa fa-trash"></i>
 							</a>
 							{% endif %}
+							<a href="{{url('emprunt/details/'~emprunt.id)}}" title="Details de l'emprunt">
+								<i class="fa fa-eye"></i>
+							</a>
 						</td>
-						{% endif %}
+						
 					</tr>
 					{% endfor %}
 				</tbody>

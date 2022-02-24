@@ -102,7 +102,7 @@
 				{% else %}
 				<div class="form-group">
 					<label>Amende:</label>
-					<span class="label label-success">{{emprunt.amende}}
+					<span class="label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', ' ')}}
 					F CFA</span>
 				</div>
 				{% endif %}

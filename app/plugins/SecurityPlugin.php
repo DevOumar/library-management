@@ -61,7 +61,7 @@ class SecurityPlugin extends Injectable
             'memoire'          => ['index', 'details', 'edit', 'new', 'delete'],
 
             'user'         => ['index', 'new', 'details', 'edit', 'delete', 'updateStatus', 'inscription', 'connexion', '_createSession', 'profil', 'resetPassword', 'resetpasswordUser', 'confirmation', 'activation', 'infos'],
-            'emprunt'                    => ['index', 'new', 'edit', 'delete', 'pdf', 'infos', 'notifier', 'verifStock','historique','total']
+            'emprunt'                    => ['index', 'new', 'edit', 'details', 'delete', 'pdf', 'infos', 'notifier', 'verifStock', 'historique_emprunt', 'historique','total']
         );
 
         foreach ($privateResources as $resource => $actions) {

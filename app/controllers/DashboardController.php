@@ -19,10 +19,10 @@ class DashboardController extends ControllerBase
      // récuperation des etudiants par cycle
         $this->view->studentStatByCycle = $this->getFilterStudent();
 
-        
         $user_id = $this->session->get('id');
         $user = Users::findFirst($user_id);
         $this-> view ->user= $user;
+
         $logged_user_role = $this->session->get('role');
         // Mes livres empruntés et retournés | professeurs
         $teacherIssueReturn = Emprunt::getTeacherIssueReturn($logged_user_role, $user_id);
@@ -54,6 +54,54 @@ class DashboardController extends ControllerBase
         // Liste des 5 derniers professeurs inscrits
         $lastTeachers = Users::getLastTeacher($logged_user_role);
         $this->view->lastTeachers = $lastTeachers;
+
+        // récuperation Total Livres empruntés | Étudiant
+        $builder = $this->modelsManager->createBuilder();
+        $req = $builder->columns("e.id, e.user_id, e.id_livre, e.date_emprunt, e.retour_emprunt, e.retour_status, e.delai_livre, e.amende, DATE_FORMAT(e.create_date, '%d/%m/%Y \à %H:%i') as ajoute_le, u.nom, u.prenom, u.role, l.nom_livre, l.isbn, l.id_ranger, l.id_casier, l.nbre_page ")
+        ->addfrom("Emprunt", "e")
+        ->join('Users', 'e.user_id = u.id', 'u')
+        ->join('Livre', 'e.id_livre = l.id', 'l')
+        ->where("u.role = 'ETUDIANT'")
+        ;
+
+        
+        $totalEmpruntEtudiant = $builder->getQuery()->execute();
+        $this->view->totalEmpruntEtudiant = $totalEmpruntEtudiant;
+
+        // récuperation Total Livres retournés | Étudiant
+        $builder = $this->modelsManager->createBuilder();
+        $req = $builder->columns("e.id, e.user_id, e.id_livre, e.date_emprunt, e.retour_emprunt, e.retour_status, e.delai_livre, e.amende, DATE_FORMAT(e.create_date, '%d/%m/%Y \à %H:%i') as ajoute_le, u.nom, u.prenom, u.role, l.nom_livre, l.isbn, l.id_ranger, l.id_casier, l.nbre_page ")
+        ->addfrom("Emprunt", "e")
+        ->join('Users', 'e.user_id = u.id', 'u')
+        ->join('Livre', 'e.id_livre = l.id', 'l')
+        ->where("u.role = 'ETUDIANT' AND e.retour_status = 1 ")
+        ;
+        $totalEmpruntRetounerEtudiant = $builder->getQuery()->execute();
+        $this->view->totalEmpruntRetounerEtudiant = $totalEmpruntRetounerEtudiant;
+
+        // récuperation Total Livres empruntés | Professeur
+        $builder = $this->modelsManager->createBuilder();
+        $req = $builder->columns("e.id, e.user_id, e.id_livre, e.date_emprunt, e.retour_emprunt, e.retour_status, e.delai_livre, e.amende, DATE_FORMAT(e.create_date, '%d/%m/%Y \à %H:%i') as ajoute_le, u.nom, u.prenom, u.role, l.nom_livre, l.isbn, l.id_ranger, l.id_casier, l.nbre_page ")
+        ->addfrom("Emprunt", "e")
+        ->join('Users', 'e.user_id = u.id', 'u')
+        ->join('Livre', 'e.id_livre = l.id', 'l')
+        ->where("u.role = 'PROFESSEUR'")
+        ;
+
+        
+        $totalEmpruntProfesseur = $builder->getQuery()->execute();
+        $this->view->totalEmpruntProfesseur = $totalEmpruntProfesseur;
+
+        // récuperation Total Livres retournés | Professeur
+        $builder = $this->modelsManager->createBuilder();
+        $req = $builder->columns("e.id, e.user_id, e.id_livre, e.date_emprunt, e.retour_emprunt, e.retour_status, e.delai_livre, e.amende, DATE_FORMAT(e.create_date, '%d/%m/%Y \à %H:%i') as ajoute_le, u.nom, u.prenom, u.role, l.nom_livre, l.isbn, l.id_ranger, l.id_casier, l.nbre_page ")
+        ->addfrom("Emprunt", "e")
+        ->join('Users', 'e.user_id = u.id', 'u')
+        ->join('Livre', 'e.id_livre = l.id', 'l')
+        ->where("u.role = 'PROFESSEUR' AND e.retour_status = 1 ")
+        ;
+        $totalEmpruntRetounerProfesseur = $builder->getQuery()->execute();
+        $this->view->totalEmpruntRetounerProfesseur = $totalEmpruntRetounerProfesseur;
 
 
         // Production des livres empruntés | étudiants
@@ -292,6 +340,5 @@ class DashboardController extends ControllerBase
         }
         return $data;
     }
-
 
 }
