@@ -15,7 +15,7 @@
 {% block content %}
 {{flash.output()}}
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col-lg-4">
     <div class="user-profile-box m-b-3" style="padding:0;">
       {% if session.role == "ADMINISTRATEUR" %}
       <a href="{{url('memoire/edit/'~memoire.id)}}" class="pull-right btn btn-default btn-xs" title="Modifier"><i class="fa fa-edit"></i></a>{% endif %}
@@ -26,8 +26,9 @@
         {# <p class="text-center">Praesent libero. Sed cursus ante dapi bus diam. Sed nisi nulla quis sem at nibh elementum imperdiet. Duis sagi diam ipsum resent.</p> #}
       </div>
     </div>
+    </div>
+    <div class="col-lg-8">
     <div class="info-box">
-      <div class="box-body"> 
         <strong><i class="fa fa-spinner margin-r-5"></i> Nom du mémoire:</strong>
         <span class="text-muted pull-right">{{memoire.nom_memoire}}</span>
         <hr>
@@ -35,7 +36,7 @@
         <span class="pull-right label label-warning">{{memoire.getCategorie().libelle}}</span>
         <hr>
         <strong><i class="fa fa-user margin-r-5"></i> Auteur:</strong>
-        <span class="pull-right label label-primary">{{memoire.getAuteur().nom_auteur}}</span>
+        <span class="pull-right label label-warning">{{memoire.getAuteur().nom_auteur}}</span>
         <hr>
         <strong><i class="fa fa-spinner margin-r-5"></i> Filière:</strong>
         <span class="pull-right label label-warning">{{memoire.getFiliere().libelle}} </span>
@@ -51,10 +52,10 @@
         <hr>
         <strong><i class="fa fa-calendar margin-r-5"></i> Date de soutenance:</strong>
         <span class="pull-right label label-warning">{{date('d-m-Y',strtotime(memoire.date_soutenance))}} </span>
-        <div class="card-footer text-left">
-          <a href="{{url('memoire')}}" class="btn btn-default">Retourner</a>
-
         </div>
+        <div class="text-left">
+        <a href="{{url('livre')}}" class="btn btn-default">Retourner</a>
+      </div>
       </div>
       <!-- /.box-body --> 
     </div>

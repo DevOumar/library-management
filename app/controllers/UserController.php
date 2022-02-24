@@ -370,7 +370,11 @@ class UserController extends ControllerBase
 
     public function profilAction($id)
     {
-        $this-> view ->user_id = $this->session->get('id');
+      $this-> view ->user_id = $this->session->get('id');
+        $user_id = $this->session->get('id');
+        $user = Users::findFirst($user_id);
+
+       // var_dump($user);exit();
 
         if ($id > 0) {
 
@@ -379,6 +383,14 @@ class UserController extends ControllerBase
                 $this->flash->error("Objet introuvable !");
                 $this->response->redirect("user");
                 return;
+
+            }
+
+            if ($this->session->role != "ADMINISTRATEUR") {
+                if ($user_id !== $user->id) {
+                    $this->response->redirect("errors/show403");
+                    return;
+                }
             }
 
             $values = (array)$user;

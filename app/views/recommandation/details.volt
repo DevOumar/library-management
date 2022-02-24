@@ -97,6 +97,9 @@ Détail Livre Recommandation
 			<hr>
 		</div>
 	</div>
+	<div class="text-left">
+		<a href="{{url('recommandation')}}" class="btn btn-default">Retourner</a>
+	</div>
 </div>
 </div>
 </div></div></div><!-- Main row --></div><!-- /.content --></div>
