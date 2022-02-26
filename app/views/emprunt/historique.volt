@@ -2,7 +2,7 @@
 {% block title %}Historique Emprunt
 {% endblock %}
 {% block pageTitle %}
-Historique des emprunts
+Historique de mes emprunts
 {% endblock %}
 {% block addcss %}
 <!-- DataTables -->
@@ -36,14 +36,14 @@ Historique des emprunts
 	</li>
 	<li>
 		<i class="fa fa-angle-right"></i>
-		historique des emprunts
+		historique de mes emprunts
 	</li>
 
 </ol>
 {% endblock %}
 {% block content %}
 <div class="info-box">
-	<h4 class="text-black">Liste({{emprunt_jour |length}})
+	<h4 class="text-black">Liste({{emprunt_filter_etudiant |length}})
 
 	</h4>
 	<hr />
@@ -65,7 +65,7 @@ Historique des emprunts
 				</tr>
 			</thead>
 			<tbody>
-				{% for k,emprunt in emprunt_jour %}
+				{% for k,emprunt in emprunt_filter_etudiant %}
 				<tr>
 					<td>{{k+1}}</td>
 					<td>{{emprunt.prenom}}
@@ -136,6 +136,11 @@ Historique des emprunts
 									<span class="label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', ' ')}}</span>
 								</td>
 								<td>
+									{% if emprunt.retour_status == 1 %}
+									<a href="{{url('emprunt/pdf/'~emprunt.id)}}" title="Imprimer" target="_blank">
+										<i class="fa fa-print"></i>
+									</a>
+									{% endif %}
 									<a href="{{url('emprunt/details/'~emprunt.id)}}" title="Details de l'emprunt">
 										<i class="fa fa-eye"></i>
 									</a>

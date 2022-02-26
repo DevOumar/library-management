@@ -164,19 +164,17 @@
           {% endif %}
 
           <li><a href="{{url('user')}}"><i class="fa fa-user-circle "></i><span>Utilisateurs</span></a></li>
-
-          {% if in_array(session.role, ['ETUDIANT','PROFESSEUR']) %}
-          <li><a href="{{url('emprunt/historique_emprunt')}}"><i class="fa fa-circle-o"></i><span>Historique des emprunts</span></a></li>
-          {% endif %}
+          
           {% if session.role == 'ADMINISTRATEUR' %}
           <li class="">
             <a href="#"><i class="fa fa-spinner"></i> <span>Affectation des emprunts</span></a>
             <ul class="sub-menu">
               <li><a href="{{url('emprunt')}}"><i class="fa fa-circle-o"></i>Affecter un emprunt</a></li>
+              {% endif %}
               <li><a href="{{url('emprunt/historique')}}"><i class="fa fa-circle-o"></i>Historique des emprunts</a></li>
             </ul>
           </li>
-          {% endif %}
+          
           {% if session.role == 'ADMINISTRATEUR' %}
           <li class="">
             <a href="#"><i class="fa fa-cog"></i> <span>Configurations</span></a>

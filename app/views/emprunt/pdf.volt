@@ -109,7 +109,7 @@
 			<hr>
 		{% endif %}
 		<br>
-		<h6>Date: Le {{ date('d-m-Y \à H:i:s')}}</h6>
+		<h6>Date: Bamako, le {{date('d-m-Y \à H:i', strtotime(emprunt.retour_emprunt))}}</h6>
 		<br>
 		À bientôt,<br/>
 		<br>

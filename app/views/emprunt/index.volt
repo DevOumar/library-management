@@ -129,12 +129,12 @@ Emprunt
 
 						
 						<td>
-							{% if session.role == "ADMINISTRATEUR" %}
 							{% if emprunt.retour_status == 1 %}
 							<a href="{{url('emprunt/pdf/'~emprunt.id)}}" title="Imprimer" target="_blank">
 								<i class="fa fa-print"></i>
 							</a>
 							{% endif %}
+							{% if session.role == "ADMINISTRATEUR" %}
 							<a href="{{url('emprunt/edit/'~emprunt.id)}}" title="Modifier">
 								<i class="fa fa-edit"></i>
 							</a>
