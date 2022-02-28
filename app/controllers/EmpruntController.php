@@ -7,8 +7,8 @@ use \Mpdf\Mpdf as MMpdf;
 class EmpruntController extends ControllerBase
 {
 
- public function indexAction($type = null)
- {
+   public function indexAction($type = null)
+   {
 
     if ($this->session->role != "ADMINISTRATEUR" && $type == null) {
         $this->response->redirect("errors/show403");
@@ -89,48 +89,9 @@ public function totalAction($filter = null)
 
 }
 
+
 public function historiqueAction()
 {
-    if ($this->session->role != "ADMINISTRATEUR") {
-        $this->response->redirect("errors/show403");
-        return;
-    }
-    
-    $date_filter = "";
-    if ($this->request->isPost()) {
-        $start_date_filter = $this->request->getPost('start_date') ? $this->request->getPost('start_date') : "";
-        $end_date_filter = $this->request->getPost('end_date') ? $this->request->getPost('end_date') : "";
-        $date_filter_chosen_label = $this->request->getPost("date_filter_chosen_label");
-        if (strlen($start_date_filter) == 10 && strlen($end_date_filter) == 10) {
-            $date_filter = "&start_date={$start_date_filter}&end_date={$end_date_filter}";
-            $this->view->start_date = $start_date_filter;
-            $this->view->end_date = $end_date_filter;
-            $this->view->date_filter_chosen_label = $date_filter_chosen_label;
-        }
-    }
-
-
-    if ($this->session->get('role') == "ADMINISTRATEUR") {
-        $builder = $this->modelsManager->createBuilder();
-        $req = $builder->columns("e.id, e.user_id, e.id_livre, e.date_emprunt, e.retour_emprunt, e.retour_status, e.delai_livre, e.amende, DATE_FORMAT(e.create_date, '%d/%m/%Y \à %H:%i') as ajoute_le, u.nom, u.prenom, u.role, u.matricule, l.nom_livre, l.isbn, l.id_ranger, l.id_casier, l.nbre_page ")
-        ->addfrom("Emprunt", "e")
-        ->join('Users', 'e.user_id = u.id', 'u')
-        ->join('Livre', 'e.id_livre = l.id', 'l')
-        ->where("DATE_FORMAT(e.create_date,'%Y-%m-%d') BETWEEN '".$start_date_filter."' AND '".$end_date_filter."'")
-        ;
-        $emprunt_jour = $builder->getQuery()->execute();
-        $this->view->emprunt_jour = $emprunt_jour;
-
-    }
-}
-
-public function historiqueEmpruntAction()
-{
-
-    if ($this->session->role === "ADMINISTRATEUR") {
-        $this->response->redirect("errors/show403");
-        return;
-    }
 
     $date_filter = "";
     if ($this->request->isPost()) {
@@ -153,6 +114,11 @@ public function historiqueEmpruntAction()
     ->addfrom("Emprunt", "e")
     ->join('Users', 'e.user_id = u.id', 'u')
     ->join('Livre', 'e.id_livre = l.id', 'l');
+
+
+    if($this->session->get('role') == 'ADMINISTRATEUR'){
+        $req->where("DATE_FORMAT(e.create_date,'%Y-%m-%d') BETWEEN '".$start_date_filter."' AND '".$end_date_filter."'");
+    }
 
     if($this->session->get('role') == 'ETUDIANT'){
         $req->where("DATE_FORMAT(e.create_date,'%Y-%m-%d') BETWEEN '".$start_date_filter."' AND '".$end_date_filter."' AND user_id = '" . $user->id . "'");
@@ -223,7 +189,7 @@ public function detailsAction($id){
         $emprunt = Emprunt::findFirst($id);
 
         if(!$emprunt ){
-          
+
             $this->response->redirect("errors/show404");
 
             return;
@@ -340,16 +306,19 @@ public function notifierAction()
 
 public function pdfAction($id)
 {
-    if ($this->session->role != "ADMINISTRATEUR") {
-        $this->response->redirect("errors/show403");
-        return;
-    }
-
     $this->response->setHeader('Cache-Control', 'max-age=0');
     $this->response->setHeader('Content-Type', 'application/pdf');
     $this->response->setHeader('Content-Disposition', 'filename="Facture_' . date('d-m-Y') . '.pdf"');
     $this->view->disable();
+    $user_id = $this->session->get('id');
+    $user = Users::findFirst($user_id);
     $emprunt = Emprunt::findFirst($id);
+    if ($this->session->role != "ADMINISTRATEUR") {
+        if ($user_id !== $emprunt->user_id) {
+            $this->response->redirect("errors/show403");
+            return;
+        }
+    }
     $pdf = $this->view->getRender("emprunt", "pdf", ['emprunt' => $emprunt]);
     $mpdf = new  MMpdf();
         // $mpdf->AddPage('L');
@@ -391,9 +360,9 @@ public function infosAction()
         ]);
 
         if (isset($verifUserExist)) {
-           echo json_encode(["error" => false,
+         echo json_encode(["error" => false,
             "user"=> $verifUserExist]);
-       }else{
+     }else{
         echo json_encode(["error" => true]);
     }
 }}
