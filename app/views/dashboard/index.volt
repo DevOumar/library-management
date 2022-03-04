@@ -23,7 +23,6 @@
     </marquee>
 </h4>
 {% endblock %}
-
 {% block content %}
 <div class="row">
     <div class="col-lg-3 col-xs-6">
@@ -42,8 +41,6 @@
     </div>
     <!-- /.col -->
     {% if in_array(session.role, ['ADMINISTRATEUR']) %}
-
-
     <div class="col-lg-3 col-xs-6">
         <a href="{{url('auteur')}}">
             <div class="info-box">
@@ -55,15 +52,11 @@
                     <span class="info-box-text">Total Auteurs</span>
                 </div>
                 <!-- /.info-box-content -->
-
             </div>
         </a>
     </div>
-
     {% endif %}
-
     {% if in_array(session.role, ['ADMINISTRATEUR']) %}
-
     <div class="col-lg-3 col-xs-6">
         <a href="{{url('user/index/nombre-etudiant')}}">
             <div class="info-box">
@@ -347,9 +340,7 @@
 </div>
 </div>
 </div>
-
 {% if in_array(session.role, ['ADMINISTRATEUR']) %}
-
 <div class="col-lg-6 col-xlg-6" >
     <div class="info-box">
         <div class="d-flex flex-wrap">
@@ -511,7 +502,7 @@
 <script>
 // ======
 // line chart
-// ======	
+// ======   
 var ctx = document.getElementById('line-chart').getContext('2d');
 var chart = new Chart(ctx, {
     // The type of chart we want to create

@@ -47,9 +47,9 @@
       <nav class="navbar blue-bg navbar-static-top"> 
         <!-- Sidebar toggle button-->
         <div class="pull-left search-box">
-          <form action="{{url('livre/search')}}" method="get" class="search-form">
+          <form action="{{url('livre/search')}}" method="post" class="search-form">
             <div class="input-group">
-              <input name="query" class="form-control" placeholder=" Rechercher un livre..." type="text" {% if query is defined %}value="{{query}}"{% endif %}>
+              <input name="query" class="form-control" placeholder=" Rechercher un livre..." type="text" >
               <span class="input-group-btn">
                 <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i> </button>
               </span></div>

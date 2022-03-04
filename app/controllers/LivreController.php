@@ -137,77 +137,62 @@ class LivreController extends ControllerBase
 
     public function searchAction(){
 
+     $livres = Livre::query();
+     $livres->where("nom_livre LIKE :nom_livre:");
+     $livres->bind(array('nom_livre' => '%' . $this->request->getPost('query') . '%'));
+
+     $this->view->livres = $livres->execute();
+
+ }
 
 
-        $query = strtolower(trim($this->request->get('query')));
-        $livres = [];
-        if(strlen($query) > 2 ){
-            $builder = $this->modelsManager->createBuilder();
-            $req = $builder->columns("l.id, l.nom_livre, l.nbre_page, l.isbn, l.quantite, DATE_FORMAT(l.create_date,'%d/%m/%Y \à %H:%i') as create_date, c.nom_auteur as auteur, ca.libelle as categorie, ra.libelle as ranger, caa.libelle as casier")
-            ->addfrom("Livre", "l")
-            ->join('Auteur', 'l.id_auteur = c.id', 'c')
-            ->join('Categorie', 'l.id_categorie = ca.id', 'ca')
-            ->join('Ranger', 'l.id_ranger = ra.id', 'ra')
-            ->join('Casier', 'l.id_casier = caa.id', 'caa')
-            ->where('LCASE(l.nom_livre) LIKE "%'.$query.'%" OR LCASE(l.isbn) LIKE "%'.$query.'%" OR LCASE(l.nbre_page) LIKE "%'.$query.'%" OR LCASE(l.nbre_page) LIKE "%'.$query.'%" OR LCASE(l.quantite) LIKE "%'.$query.'%" OR "%'.$query.'%"')
-            ;
+ public function editAction($id){
 
-            $livres = $builder->getQuery()->execute();
-        }
-
-        $this->view->results = $livres;
-        $this->view->query = $query;
-
+    if ($this->session->role != "ADMINISTRATEUR") {
+        $this->response->redirect("errors/show403");
+        return;
     }
 
 
-    public function editAction($id){
+    if($id > 0){
 
-        if ($this->session->role != "ADMINISTRATEUR") {
-            $this->response->redirect("errors/show403");
+        $livre = Livre::findFirst($id);
+        if(!$livre){
+            $this->flash->error("Objet introuvable !"); 
+            $this->response->redirect("livre");
             return;
         }
 
+        $values = (array)$livre;
 
-        if($id > 0){
+        $this->tag->setDefaults($values);
+
+        $livreForm = new LivreForm();
+
+        if($this->request->isPost()){
+            $data = $this->request->getPost();
 
             $livre = Livre::findFirst($id);
-            if(!$livre){
-                $this->flash->error("Objet introuvable !"); 
-                $this->response->redirect("livre");
-                return;
-            }
 
-            $values = (array)$livre;
+            if($livreForm->isValid($data, $livre)){
+                if(!$livre->save()){
 
-            $this->tag->setDefaults($values);
-
-            $livreForm = new LivreForm();
-
-            if($this->request->isPost()){
-                $data = $this->request->getPost();
-
-                $livre = Livre::findFirst($id);
-
-                if($livreForm->isValid($data, $livre)){
-                    if(!$livre->save()){
-
-                    }
+                }
 
                     // Service de notification
-                    $message = "Livre [".$livre->nom_livre."] a été modifié par [".$this->session->get('pseudo')."]";
-                    $url = "livre/details/".$livre->id;
-                    $admin = true;
-                    $this->srv_notif->add($message, $url, $admin);
+                $message = "Livre [".$livre->nom_livre."] a été modifié par [".$this->session->get('pseudo')."]";
+                $url = "livre/details/".$livre->id;
+                $admin = true;
+                $this->srv_notif->add($message, $url, $admin);
 
-                    $this->flash->success("Objet modifié avec succès !"); 
-                    $this->response->redirect("livre");
-                }
+                $this->flash->success("Objet modifié avec succès !"); 
+                $this->response->redirect("livre");
             }
-            $this->view->form = $livreForm;
-            $this->view->livre = $livre;
         }
-
+        $this->view->form = $livreForm;
+        $this->view->livre = $livre;
     }
+
+}
 
 }

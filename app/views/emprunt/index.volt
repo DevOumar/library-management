@@ -77,30 +77,22 @@ Emprunt
 						Non retourné
 					</span>
 					{% else %}
-
 					<span class="label label-success">
 						{{date('d/m/Y',strtotime(emprunt.retour_emprunt))}}
 					</span>
 				</td>
-
 				{% endif %}
-
 				<td>
 					{% if emprunt.retour_emprunt == "" or emprunt.retour_emprunt == NULL %}
 					<span class="label label-danger">{{date('d-m-Y',strtotime(emprunt.delai_livre))}}</span>
-
 					<?php
 						$date1 = new DateTime("now");
 						$date2 = new DateTime($emprunt->delai_livre . ' 23:59:59.999999');
 					?>
-
 					<?php if ($date1 > $date2) : ?>
-
 					<br><span class="label label-danger">
 					Délai expiré</span>
-
 					<?php endif ?>
-
 				</td>
 				{% else %}
 				<span class="label label-success">Retourné</span>
@@ -110,23 +102,19 @@ Emprunt
 						$date1 = new DateTime($emprunt->retour_emprunt);
 						$date2 = new DateTime($emprunt->delai_livre . ' 23:59:59.999999');
 					?>
-
 					<?php 
 						if (($date1 <= $date2) && $emprunt->amende != NULL) : ?>
 							<span class="fa fa-circle" style="color:#00ff51;"></span>
 							Retourner à temps
-
 							<?php endif ?>
 							<?php if (($date1 > $date2) && $emprunt->amende != NULL ) : ?>
 							<span class="fa fa-circle" style="color:#ff0000;"></span>
 							Retourner en retard
-
 							<?php endif ?>
 						</td>
 						<td>
 							<span class="label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', ' ')}}</span>
 						</td>
-
 						
 						<td>
 							{% if emprunt.retour_status == 1 %}
@@ -179,7 +167,6 @@ Emprunt
 				cache: false,
 				async: true
 			}).done(function (result) {
-
 				if (result == "1") {
 					$(currentTr).css('background-color', '#ff9933').fadeOut(1000, function () {
 						$(this).remove();
@@ -191,6 +178,5 @@ Emprunt
 				}
 			});
 		});
-
 	});</script>
 	{% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'layouts/base.volt' %}
 {% block title %}Recherche{% endblock %}
-{% block pageTitle %} Résultats de la recherche ({{results |length}}){% endblock %}
+{% block pageTitle %} Résultats de la recherche ({{livres |length}}){% endblock %}
 {% block addcss %}
 <!-- DataTables -->
 <link rel="stylesheet" href="{{url('template/plugins/datatables/css/dataTables.bootstrap.min.css')}}">
@@ -16,7 +16,7 @@
 <div class="info-box">
       {{flash.output()}}
       <div class="table-responsive">
-                {% if results |length > 0 %}
+                {% if livres |length > 0 %}
                   <table id="dataList" class="table table-bordered table-hover" data-name="cool-table">
                     <thead>
                       <tr>
@@ -29,22 +29,24 @@
                         <th>Casiers</th>
                         <th>Nbre pages</th>
                         <th>Quantité</th>
+                        <th>Stock</th>
                         <th>Date de création</th>
                       </tr>
                     </thead>
                     <tbody>
-                    {% for k,livre in results %}
+                    {% for k,livre in livres %}
                       <tr>
                         <td>{{k+1}}</td>
                         <td>{{livre.nom_livre |upper}}</td>
-                        <td>{{livre.categorie}}</td>
-                        <td>{{livre.auteur}}</td>
+                        <td>{{livre.getCategorie().libelle}}</td>
+                        <td>{{livre.getAuteur().nom_auteur}}</td>
                         <td>{{livre.isbn}}</td>
-                        <td>{{livre.ranger}}</td>
-                        <td>{{livre.casier}}</td>
+                        <td>{{livre.id_ranger}}</td>
+                        <td>{{livre.id_casier}}</td>
                         <td>{{livre.nbre_page}}</td>
                         <td>{{livre.quantite}}</td>
-                        <td>{{livre.create_date}}</td>
+                        <td>{{livre.getQteStock()}}</td>
+                        <td>{{date('d/m/Y \à H:i',strtotime(livre.create_date))}}</td>
                       </tr>
                     {% endfor %}
                     </tbody>

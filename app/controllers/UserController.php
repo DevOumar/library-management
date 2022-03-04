@@ -374,8 +374,7 @@ class UserController extends ControllerBase
         $user_id = $this->session->get('id');
         $user = Users::findFirst($user_id);
 
-       // var_dump($user);exit();
-
+    
         if ($id > 0) {
 
             $user = Users::findFirst($id);

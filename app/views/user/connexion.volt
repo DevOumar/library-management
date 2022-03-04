@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,10 +40,10 @@
       {{flash.output()}}
       <form action="{{url('user/connexion')}}" method="post">
         <div class="form-group has-feedback">
-          <input type="email" class="form-control sty1" name="email" placeholder="Adresse e-mail" required="required">
+          <input type="email" class="form-control sty1" name="email" placeholder="Adresse e-mail">
         </div>
         <div class="form-group has-feedback">
-          <input type="password" class="form-control sty1" name="password" placeholder="Mot de passe" required="required">
+          <input type="password" class="form-control sty1" name="password" placeholder="Mot de passe">
         </div>
       <div class="checkbox icheck">
         <label>
