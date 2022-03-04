@@ -98,14 +98,11 @@
       if (($date1 <= $date2) && $emprunt->amende != NULL) : ?>
         <span class="fa fa-circle" style="color:#00ff51;"></span>
         Retourner à temps
-
         <?php endif ?>
         <?php if (($date1 > $date2) && $emprunt->amende != NULL ) : ?>
         <span class="fa fa-circle" style="color:#ff0000;"></span>
         Retourner en retard
-
         <?php endif ?>
-
       </div>
       {% if session.role == "ADMINISTRATEUR" %}
       <div class="text-left">
@@ -119,7 +116,6 @@
       <!-- /.box-body --> 
     </div>
   </div>
-
   {% endblock %}
   {% block addjs %}
   {% endblock %}

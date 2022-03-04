@@ -169,9 +169,9 @@ public function newAction()
             $emprunt->id_livre = $emprunt->id_livre;
 
             if (!$emprunt->save()) {
-
+                var_dump($emprunt);exit;
             }
-            $this->flash->success("Emprunt #" . strtoupper($emprunt->id) . "  est effectué avec succès !");
+            $this->flash->success("Emprunt #" . ($emprunt->id) . "  est effectué avec succès !");
             $this->response->redirect("emprunt");
         }
     }
@@ -306,6 +306,13 @@ public function notifierAction()
 
 public function pdfAction($id)
 {
+
+    $emprunt = Emprunt::findFirst($id);
+    if (!$emprunt) {
+        $this->flash->error("Objet introuvable !");
+        $this->response->redirect("emprunt");
+        return;
+    }
     $this->response->setHeader('Cache-Control', 'max-age=0');
     $this->response->setHeader('Content-Type', 'application/pdf');
     $this->response->setHeader('Content-Disposition', 'filename="Facture_' . date('d-m-Y') . '.pdf"');
