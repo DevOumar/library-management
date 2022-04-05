@@ -477,16 +477,6 @@
 </div>
 </div>
 {% endif %}
-<div class="col-lg-5 col-xlg-3">
-    <div class="info-box">
-        <div class="d-flex flex-wrap">
-            <div>
-                <h4 class="text-black">Frequentation par cycle</h4>
-            </div>
-        </div>
-        <div id="pie2" height="210"></div>
-    </div>
-</div>
 </div>
 </div>
 
@@ -529,26 +519,6 @@ options: {
     responsive: true
 }
 });
-</script>
-<script>
-(function ($) {
- "use strict";
- c3.generate({
-    bindto: '#pie2',
-    data:{
-        columns: [
-        ['data1', 200],
-        ['data2', 100]
-        ],
-        colors:{
-            data1: '#006DF0',
-            data2: '#933EC5'
-        },
-        type : 'pie'
-    }
-});
-})(jQuery); 
-
 </script>
 <script>
 // ======

@@ -41,7 +41,7 @@
     <tr>
         <td>{{k+1}}</td>
         <td>{{memoire.nom_memoire |upper}}</td>
-        <td><span class="label label-primary">{{memoire.getCategorie().libelle}}</span></td>
+        <td>{{memoire.getCategorie().libelle}}</td>
         <td>{{memoire.getAuteur().nom_auteur |upper}}</td>
         <td><span class="label label-primary">{{memoire.getFiliere().libelle}}/{{memoire.getCycle().libelle}}</span></td>
 

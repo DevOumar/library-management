@@ -7,8 +7,8 @@ use \Mpdf\Mpdf as MMpdf;
 class EmpruntController extends ControllerBase
 {
 
-   public function indexAction($type = null)
-   {
+ public function indexAction($type = null)
+ {
 
     if ($this->session->role != "ADMINISTRATEUR" && $type == null) {
         $this->response->redirect("errors/show403");
@@ -74,7 +74,7 @@ public function totalAction($filter = null)
     }
     if ($filter == "livres_retournes_etudiant") {
         $req->andWhere("u.role = 'ETUDIANT' AND e.retour_status = 1 ");
-       // var_dump($req);exit();
+
     }
     if ($filter == "livres_empruntes_professeur") {
         $req->where("u.role = 'PROFESSEUR' ");
@@ -144,6 +144,7 @@ public function newAction()
 
     if ($this->request->isPost()) {
         $data = $this->request->getPost();
+        
         $verifEmpruntExist  = Emprunt::findFirst([
             'user_id = :user_id:',
             'bind' => [
@@ -169,9 +170,9 @@ public function newAction()
             $emprunt->id_livre = $emprunt->id_livre;
 
             if (!$emprunt->save()) {
-                var_dump($emprunt);exit;
+
             }
-            $this->flash->success("Emprunt #" . ($emprunt->id) . "  est effectué avec succès !");
+            $this->flash->success("L'emprunt du livre [ " . ($emprunt->getLivre()->nom_livre) . " ]  est effectué avec succès !");
             $this->response->redirect("emprunt");
         }
     }
@@ -180,42 +181,63 @@ public function newAction()
     $this->view->form = $empruntForm;
 }
 
-public function detailsAction($id){
+public function detailsAction($id = null){
 
-    $user_id = $this->session->get('id');
-    $user = Users::findFirst($user_id);
+    if ($id == null || !is_numeric($id)) {
+       $this->flash->error("Objet introuvable !");
+       $this->response->redirect("emprunt");
+       return;
 
-    if($id > 0){
-        $emprunt = Emprunt::findFirst($id);
+   }
 
-        if(!$emprunt ){
+   $user_id = $this->session->get('id');
+   $user = Users::findFirst($user_id);
 
-            $this->response->redirect("errors/show404");
+   if($id > 0){
+    $emprunt = Emprunt::findFirst($id);
 
+    if(!$emprunt ){
+
+        $this->response->redirect("errors/show404");
+
+        return;
+    }
+
+    if ($this->session->role != "ADMINISTRATEUR") {
+        if ($user_id !== $emprunt->user_id) {
+            $this->response->redirect("errors/show403");
             return;
         }
-
-        if ($this->session->role != "ADMINISTRATEUR") {
-            if ($user_id !== $emprunt->user_id) {
-                $this->response->redirect("errors/show403");
-                return;
-            }
-        }
-        
-
-        $this->view->emprunt = $emprunt;
-
-    }else{
-        $this->flash->error("Erreur de requête !"); 
-        $this->response->redirect("emprunt");
-
     }
+
+
+    $this->view->emprunt = $emprunt;
+
+}else{
+    $this->flash->error("Erreur de requête !"); 
+    $this->response->redirect("emprunt");
+
+}
 }
 
 
-public function editAction($id)
+public function editAction($id = null)
 {
+
     if ($this->session->role != "ADMINISTRATEUR") {
+        $this->response->redirect("errors/show403");
+        return;
+    }
+
+    if ($id == null || !is_numeric($id)) {
+       $this->flash->error("Objet introuvable !");
+       $this->response->redirect("emprunt");
+       return;
+
+   }
+
+    if ($id == null) {
+
         $this->response->redirect("errors/show403");
         return;
     }
@@ -357,7 +379,6 @@ public function infosAction()
     }
     if ($this->request->isPost()) {
         $data = $this->request->getPost();
-            // var_dump($data);exit();
 
         $verifUserExist  = Users::findFirst([
             'matricule = :matricule:',
@@ -367,9 +388,9 @@ public function infosAction()
         ]);
 
         if (isset($verifUserExist)) {
-         echo json_encode(["error" => false,
+           echo json_encode(["error" => false,
             "user"=> $verifUserExist]);
-     }else{
+       }else{
         echo json_encode(["error" => true]);
     }
 }}

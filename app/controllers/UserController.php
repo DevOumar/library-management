@@ -17,12 +17,12 @@ class UserController extends ControllerBase
         if ($this->session->get('role') == "ETUDIANT") {
             $user =  Users::findFirst($user_id);
             $this->view->users = Users::find(["role = 'ETUDIANT' AND matricule = '" . $user->matricule . "'"]);
-        }
-        elseif($this->session->get('role') == "PROFESSEUR") {
+        } elseif ($this->session->get('role') == "PROFESSEUR") {
             $user =  Users::findFirst($user_id);
             $this->view->users = Users::find(["role = 'PROFESSEUR' AND matricule = '" . $user->matricule . "'"]);
-        }else{
-            $this->view->users = Users::find();
+        } else {
+
+            $this->view->users = Users::find(["role = 'ETUDIANT' OR role = 'PROFESSEUR'"]);
         }
 
 
@@ -32,7 +32,6 @@ class UserController extends ControllerBase
                 $user =  Users::findFirst($user_id);
 
                 $this->view->users = Users::find(["role = 'ETUDIANT'"]);
-
             }
         }
         if ($type == "nombre-professeur") {
@@ -40,11 +39,21 @@ class UserController extends ControllerBase
                 $user =  Users::findFirst($user_id);
 
                 $this->view->users = Users::find(["role = 'PROFESSEUR'"]);
-                
-
             }
         }
+    }
 
+    public function administrateurAction()
+    {
+        if ($this->session->role != "ADMINISTRATEUR") {
+            $this->response->redirect("errors/show403");
+            return;
+        }
+
+        if ($this->session->get('role') == "ADMINISTRATEUR") {
+
+            $this->view->users = Users::find(["role = 'ADMINISTRATEUR'"]);
+        }
     }
 
     public function newAction()
@@ -56,7 +65,7 @@ class UserController extends ControllerBase
 
         if ($this->request->isPost()) {
             $data = $this->request->getPost();
-            
+
             $verifUserExist  = Users::findFirst([
                 'telephone = :telephone:',
                 'bind' => [
@@ -119,22 +128,30 @@ class UserController extends ControllerBase
                 $user->save();
 
                 if (!$user->save()) {
-
-
                 }
                 $this->flash->success("L'étudiant " . ($user->prenom) . " " . strtoupper($user->nom) . " a été crée avec succès.");
                 $this->response->redirect("user");
             } else {
-
             }
         }
         $userForm = new UserForm();
         $this->view->form = $userForm;
     }
 
-    public function editAction($id)
+    public function editAction($id = null)
     {
         if ($this->session->role != "ADMINISTRATEUR") {
+            $this->response->redirect("errors/show403");
+            return;
+        }
+
+        if ($id == null || !is_numeric($id)) {
+            $this->flash->error("Objet introuvable !");
+            $this->response->redirect("user");
+            return;
+        }
+
+        if ($id == null) {
             $this->response->redirect("errors/show403");
             return;
         }
@@ -188,7 +205,6 @@ class UserController extends ControllerBase
         $this->session->set("libelle", $user->getCycle()->libelle);
         $this->session->set('token_activation', $user->token_activation);
         $this->session->set("role", $user->role);
-        
     }
 
     public function inscriptionAction()
@@ -267,7 +283,7 @@ class UserController extends ControllerBase
             $email = $_POST['email'];
             if ($userForm->isValid($data, $user)) {
                 $user->status = 0;
-               // $user->id_role = 3;
+                // $user->id_role = 3;
                 $user->create_date = date('Y-m-d H:i:s');
                 $user->id_cycle = ($user->role != "ETUDIANT") ? NULL : $user->id_cycle;
                 $user->initials = $user->nom[0] . '.' . $user->prenom[0];
@@ -368,135 +384,114 @@ class UserController extends ControllerBase
         $this->response->redirect("user/connexion");
     }
 
-    public function profilAction($id)
+    public function profilAction()
     {
-      $this-> view ->user_id = $this->session->get('id');
+
+        $this->view->user_id = $this->session->get('id');
+
         $user_id = $this->session->get('id');
-        $user = Users::findFirst($user_id);
 
-    
-        if ($id > 0) {
+        $user = Users::findFirstById($user_id);
 
-            $user = Users::findFirst($id);
-            if (!$user) {
-                $this->flash->error("Objet introuvable !");
-                $this->response->redirect("user");
-                return;
+        $values = (array)$user;
 
-            }
+        $this->tag->setDefaults($values);
 
-            if ($this->session->role != "ADMINISTRATEUR") {
-                if ($user_id !== $user->id) {
-                    $this->response->redirect("errors/show403");
-                    return;
-                }
-            }
+        $userForm = new UserForm();
 
-            $values = (array)$user;
+        if ($this->request->isPost()) {
+            $data = $this->request->getPost();
 
-            $this->tag->setDefaults($values);
+            if ($userForm->isValid($data, $user)) {
 
-            $userForm = new UserForm();
+                if ($this->request->hasFiles() == true) {
 
-            if ($this->request->isPost()) {
-                $data = $this->request->getPost();
+                    $files = $this->request->getUploadedFiles();
+                    $uploadDirPhoto = FILES_USERS_UPLOAD_DIR;
+                    $extensions = ['jpg', 'png', 'jpeg'];
+                    foreach ($files as $key => $file) {
 
-                $user = Users::findFirst($id);
+                        if (!in_array(strtolower($file->getExtension()), $extensions)) {
+                            $this->flash->error('Ce type d\'extension n\'est pas acceptée. Les extensions acceptées sont Jpg, Png, Jpeg');
 
-                if ($userForm->isValid($data, $user)) {
+                            $this->response->redirect("user");
+                            return;
+                        }
+                        if ($file->getSize() > 10000000) {
 
-                    if ($this->request->hasFiles() == true) {
+                            $this->flash->error('Oops! Fichier trop volumineux, la taille maximale acceptée est 10Mo');
 
-                        $files = $this->request->getUploadedFiles();
-                        $uploadDirPhoto = FILES_USERS_UPLOAD_DIR;
-                        $extensions = ['jpg', 'png', 'jpeg'];
-                        foreach ($files as $key => $file) {
-
-                            if (!in_array(strtolower($file->getExtension()), $extensions)) {
-                                $this->flash->error('Ce type d\'extension n\'est pas acceptée. Les extensions acceptées sont Jpg, Png, Jpeg');
-
-                                $this->response->redirect("user");
-                                return;
+                            $this->response->redirect("user");
+                            return;
+                        }
+                        if ($file->getName() != null && $file->getName() != "") {
+                            if ($user->photo != null && file_exists($uploadDirPhoto . $user->photo) && $user->photo != "avatar1.png") {
+                                unlink($uploadDirPhoto . $user->photo);
                             }
-                            if ($file->getSize() > 10000000) {
 
-                                $this->flash->error('Oops! Fichier trop volumineux, la taille maximale acceptée est 10Mo');
+                            $filename   = uniqid() . '_' . date('d-m-Y') . '.' . $file->getExtension();
+                            // Move the file into the application
 
-                                $this->response->redirect("user");
-                                return;
-                            }
-                            if ($file->getName() != null && $file->getName() != "") {
-                                if ($user->photo != null && file_exists($uploadDirPhoto . $user->photo) && $user->photo != "avatar1.png") {
-                                    unlink($uploadDirPhoto . $user->photo);
-                                }
-
-                                $filename   = uniqid() . '_' . date('d-m-Y') . '.' . $file->getExtension();
-                                // Move the file into the application
-
-                                $file->moveTo(
-                                    $uploadDirPhoto . $filename
-                                );
-                                $user->photo     = $filename;
-                            }
+                            $file->moveTo(
+                                $uploadDirPhoto . $filename
+                            );
+                            $user->photo     = $filename;
                         }
                     }
-                    if (!$user->save()) {
-                    }
-
-                    $this->flash->success("Profil modifié avec succès !");
-                    $this->response->redirect("user");
                 }
+                if (!$user->save()) {
+                }
+
+                $this->flash->success("Profil modifié avec succès !");
+                $this->response->redirect("user/profil");
             }
-            $this->view->form = $userForm;
-            $this->view->user = $user;
         }
+        $this->view->form = $userForm;
+        $this->view->user = $user;
     }
 
-    public function resetPasswordAction(){
+    public function resetPasswordAction()
+    {
 
-        $this-> view ->user_id = $this->session->get('id');
+        $this->view->user_id = $this->session->get('id');
 
         $user_id = $this->session->get('id');
 
         $user = Users::findFirst($user_id);
 
-        if(!$user){
-            $this->flash->error("Objet introuvable !"); 
+        if (!$user) {
+            $this->flash->error("Objet introuvable !");
             $this->response->redirect("user");
             return;
         }
 
-        $resetPasswordForm = new ResetPasswordForm();    
+        $resetPasswordForm = new ResetPasswordForm();
 
-        if($this->request->isPost()){
+        if ($this->request->isPost()) {
             $data = $this->request->getPost();
 
             /* var_dump($data["new_password"]);exit; */
-            if($this->security->checkHash($data["old_password"], $user->password)){
+            if ($this->security->checkHash($data["old_password"], $user->password)) {
 
-                if($data["new_password"] == $data["con_password"]){
+                if ($data["new_password"] == $data["con_password"]) {
                     $user->password = $this->security->hash($data["new_password"]);
-
-                }else{
-                    $this->flash->error("Le nouveau mot de passe et le mot de passe de confirmation ne correspondent pas."); 
+                } else {
+                    $this->flash->error("Le nouveau mot de passe et le mot de passe de confirmation ne correspondent pas.");
                     $this->response->redirect("user/resetPassword");
                     return;
                 }
-
-            }else{
-                $this->flash->error("Mot de passe actuel incorrect !"); 
+            } else {
+                $this->flash->error("Mot de passe actuel incorrect !");
                 $this->response->redirect("user/resetPassword");
                 return;
             }
 
-            if(!$user->save()){
-
+            if (!$user->save()) {
             }
 
-            $this->flash->success("Mot de passe modifié avec succès !"); 
+            $this->flash->success("Mot de passe modifié avec succès !");
             //$this->response->redirect("user/details/".$compte->id);
             $this->response->redirect("user/resetPassword");
-
         }
         $this->view->form = $resetPasswordForm;
         $this->view->user = $user;
@@ -625,24 +620,25 @@ class UserController extends ControllerBase
 
 
     public function updateStatusAction($id)
-    {   
+    {
 
         $user = Users::findFirst($id);
 
-        if($user->status == true){
+        if ($user->status == true) {
             $user->status = false;
             $user->save();
-            
-            echo 1;exit;
-        }
-        else{
+
+            echo 1;
+            exit;
+        } else {
             $user->status = true;
             $user->save();
-            echo 1;exit;
+            echo 1;
+            exit;
         }
 
-        echo 0;exit;
-
+        echo 0;
+        exit;
     }
     public function deleteAction($id)
     {
@@ -676,6 +672,4 @@ class UserController extends ControllerBase
         echo 0;
         exit;
     }
-
-    
 }

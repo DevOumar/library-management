@@ -89,7 +89,7 @@
                 $("#user_id").val(resp?.user?.id);
                 return      $("#get_student_name").html(
                     "<span class='text-black'>"+
-                    resp?.user?.prenom+ ' ' +resp?.user?.nom+
+                    resp?.user?.prenom+ ' ' +resp?.user?.nom+ ' | ' +resp?.user?.role+
                     "</span>"
                     );
 

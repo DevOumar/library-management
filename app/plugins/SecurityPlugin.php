@@ -60,7 +60,7 @@ class SecurityPlugin extends Injectable
             'livre'                    => ['index', 'details', 'edit', 'new', 'search', 'delete'],
             'memoire'          => ['index', 'details', 'edit', 'new', 'delete'],
 
-            'user'         => ['index', 'new', 'details', 'edit', 'delete', 'updateStatus', 'inscription', 'connexion', '_createSession', 'profil', 'resetPassword', 'resetpasswordUser', 'confirmation', 'activation', 'infos'],
+            'user'         => ['index', 'new', 'details', 'edit', 'delete', 'updateStatus', 'inscription', 'connexion', '_createSession', 'profil', 'resetPassword', 'resetpasswordUser', 'confirmation', 'activation', 'infos', 'administrateur'],
             'emprunt'                    => ['index', 'new', 'edit', 'details', 'delete', 'pdf', 'infos', 'notifier', 'verifStock', 'historique','total']
         );
 

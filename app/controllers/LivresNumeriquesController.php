@@ -24,7 +24,6 @@ class LivresNumeriquesController extends ControllerBase
 
         $paginate = $paginator->paginate();
 
-        //var_dump($paginate);exit;
         $this->view->paginate = $paginate;
 
         $this->view->numeriques = Numerique::find();
@@ -98,71 +97,91 @@ class LivresNumeriquesController extends ControllerBase
         $this->view->numerique = $numerique;
     }
 
-    public function editAction($id){
+    public function editAction($id = null){
 
-        if ($this->session->role != "ADMINISTRATEUR") {
-            $this->response->redirect("errors/show403");
+        if ($id == null || !is_numeric($id)) {
+         $this->flash->error("Objet introuvable !");
+         $this->response->redirect("livres-numeriques");
+         return;
+
+     }
+
+     if ($this->session->role != "ADMINISTRATEUR") {
+        $this->response->redirect("errors/show403");
+        return;
+    }
+
+    if ($id == null) {
+        $this->response->redirect("errors/show403");
+        return;
+    }
+
+    if($id > 0){
+
+        $numerique= Numerique::findFirst($id);
+        if(!$numerique){
+            $this->flash->error("Objet introuvable !"); 
+            $this->response->redirect("livres-numeriques");
             return;
         }
 
-        if($id > 0){
+        $values = (array)$numerique;
 
-            $numerique= Numerique::findFirst($id);
-            if(!$numerique){
-                $this->flash->error("Objet introuvable !"); 
-                $this->response->redirect("livres-numeriques");
-                return;
-            }
+        $this->tag->setDefaults($values);
 
-            $values = (array)$numerique;
-            
-            $this->tag->setDefaults($values);
-            
-            $numeriqueForm = new NumeriqueForm();
-            
-            if($this->request->isPost()){
-                $data = $this->request->getPost();
-                
-                $numerique = Numerique::findFirst($id);
-                
-                if($numeriqueForm->isValid($data, $numerique)){
-                    if(!$numerique->save()){
+        $numeriqueForm = new NumeriqueForm();
 
-                    }
-                    
-                    $this->flash->success("Objet modifié avec succès !"); 
-                    $this->response->redirect("livres-numeriques");
+        if($this->request->isPost()){
+            $data = $this->request->getPost();
+
+            $numerique = Numerique::findFirst($id);
+
+            if($numeriqueForm->isValid($data, $numerique)){
+                if(!$numerique->save()){
+
                 }
+
+                $this->flash->success("Objet modifié avec succès !"); 
+                $this->response->redirect("livres-numeriques");
             }
-            $this->view->form = $numeriqueForm;
-            $this->view->numerique = $numerique;
         }
-        
+        $this->view->form = $numeriqueForm;
+        $this->view->numerique = $numerique;
     }
 
-    public function detailsAction($id){
+}
 
-        if($id > 0){
-         $numerique = Numerique::findFirst($id);
+public function detailsAction($id = null){
 
-         if(!$numerique){
-             $this->flash->error("Objet introuvable !"); 
-             $this->response->redirect("livres-numeriques");
 
-             return;
-         }
+    if ($id == null || !is_numeric($id)) {
+     $this->flash->error("Objet introuvable !");
+     $this->response->redirect("livres-numeriques");
+     return;
 
-         $this->view->numerique = $numerique;
-
-     }else{
-         $this->flash->error("Erreur de requête !"); 
-         $this->response->redirect("livres-numeriques");
-
-     }
  }
 
- public function deleteAction($id)
- {
+ if($id > 0){
+     $numerique = Numerique::findFirst($id);
+
+     if(!$numerique){
+         $this->flash->error("Objet introuvable !"); 
+         $this->response->redirect("livres-numeriques");
+
+         return;
+     }
+
+     $this->view->numerique = $numerique;
+
+ }else{
+     $this->flash->error("Erreur de requête !"); 
+     $this->response->redirect("livres-numeriques");
+
+ }
+}
+
+public function deleteAction($id)
+{
 
     if ($this->session->role != "ADMINISTRATEUR") {
         $this->response->redirect("errors/show403");

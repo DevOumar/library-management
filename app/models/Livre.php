@@ -117,7 +117,7 @@ class Livre extends \Phalcon\Mvc\Model
     public function getQteStock()
     {
         $qte_emprunt = Emprunt::count(["id_livre = :id_livre: AND retour_status = 0 ", 'bind' => ["id_livre" => $this->id]]);
-        $this->qte_stock =$this->quantite - ($qte_emprunt) ;
+        $this->qte_stock = $this->quantite - ($qte_emprunt) ;
         return $this->qte_stock ;
     }
 

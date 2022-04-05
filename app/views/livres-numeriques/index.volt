@@ -34,10 +34,10 @@
 		- Total:
 		{{paginate.total_items}}
 		<div class="btn-group">
-			<a href="{{url('numerique?page='~paginate.previous)}}" class="btn btn-default btn-sm">
+			<a href="{{url('livres-numeriques?page='~paginate.previous)}}" class="btn btn-default btn-sm">
 				<i class="fa fa-chevron-left"></i>
 			</a>
-			<a href="{{url('numerique?page='~paginate.next)}}" class="btn btn-default btn-sm">
+			<a href="{{url('livres-numeriques?page='~paginate.next)}}" class="btn btn-default btn-sm">
 				<i class="fa fa-chevron-right"></i>
 			</a>
 		</div>

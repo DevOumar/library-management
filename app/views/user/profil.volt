@@ -13,6 +13,10 @@
 {% endblock %}
 
 {% block content %}
+<div class="info-box">
+   <div class="col-md-6">
+       {{flash.output()}}
+   </div>
 <div class="row m-t-3">
     <div class="col-lg-12">
       <div class="card ">
