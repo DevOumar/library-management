@@ -108,6 +108,7 @@ class UserForm extends Form
     private function generateCodeMatricule(){
         $last = Users::findFirst(['order' => 'id desc']);
         if(!$last){
+            
             return 'MAE'.date('my').'-00001';
         }
             $split = explode('-', $last->matricule);

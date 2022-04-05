@@ -47,6 +47,9 @@
 			{{emprunt.getUsers().nom|upper}}
 		{{emprunt.getUsers().prenom|upper}}</h5>
 		<h5>
+			Statut :
+		{{emprunt.getUsers().role}}</h5>
+		<h5>
 			ISBN du livre :
 		{{emprunt.getLivre().isbn}}</h5>
 		<h5 align="left">Livre retourné :

@@ -105,51 +105,72 @@ class LivreController extends ControllerBase
         echo 0;exit;
     }
 
-    public function detailsAction($id){
+    public function detailsAction($id = null){
 
 
+        $user_id = $this->session->get('id');
+        $user = Users::findFirst($user_id);
 
-        if($id > 0){
-            $livre = Livre::findFirst($id);
+        if ($id == null || !is_numeric($id)) {
+           $this->flash->error("Objet introuvable !");
+           $this->response->redirect("livre");
+           return;
 
-            if(!$livre){
-                $this->flash->error("Objet introuvable !"); 
-                $this->response->redirect("livre");
+       }
 
-                return;
-            }
+       if($id > 0){
+        $livre = Livre::findFirst($id);
 
-            if($notification_id > 0){
-                $notification = Notification::findFirst($notification_id);
-
-                $notification->read = true;
-                $notification->save();
-            }
-
-            $this->view->livre = $livre;
-        }else{
-            $this->flash->error("Erreur de requête !"); 
+        if(!$livre){
+            $this->flash->error("Objet introuvable !"); 
             $this->response->redirect("livre");
 
+            return;
         }
+
+        if($notification_id > 0){
+            $notification = Notification::findFirst($notification_id);
+
+            $notification->read = true;
+            $notification->save();
+        }
+
+        $this->view->livre = $livre;
+    }else{
+        $this->flash->error("Erreur de requête !"); 
+        $this->response->redirect("livre");
 
     }
 
-    public function searchAction(){
+}
 
-     $livres = Livre::query();
-     $livres->where("nom_livre LIKE :nom_livre:");
-     $livres->bind(array('nom_livre' => '%' . $this->request->getPost('query') . '%'));
+public function searchAction(){
 
-     $this->view->livres = $livres->execute();
+ $livres = Livre::query();
+ $livres->where("nom_livre LIKE :nom_livre:");
+ $livres->bind(array('nom_livre' => '%' . $this->request->getPost('query') . '%'));
 
- }
+ $this->view->livres = $livres->execute();
+
+}
 
 
- public function editAction($id){
+public function editAction($id = null){
 
     if ($this->session->role != "ADMINISTRATEUR") {
         $this->response->redirect("errors/show403");
+        return;
+    }
+
+    if ($id == null || !is_numeric($id)) {
+         $this->flash->error("Objet introuvable !");
+         $this->response->redirect("livre");
+         return;
+         
+     }
+
+    if ($id == null) {
+        $this->response->redirect("errors/403");
         return;
     }
 

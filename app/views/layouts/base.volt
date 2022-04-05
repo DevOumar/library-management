@@ -32,6 +32,11 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js')}}"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js')}}"></script>
 <![endif]-->
+<style type="text/css">
+    .orange {
+      color: #ff7a00;
+    }
+  </style>
 
   {% block addcss %}{% endblock %}
 </head>
@@ -41,7 +46,7 @@
       <!-- Logo --> 
       <a href="{{url('dashboard')}}" class="logo blue-bg"> 
         <!-- mini logo for sidebar mini 50x50 pixels --> 
-        <img src="{{url('img/logo.jpeg')}}" width="200" />
+        <h4 class="logo-lg text-white">BIBLIO<span class="orange" style="font-size:40px;">.</span></h4>
       </a> 
       <!-- Header Navbar: style can be found in header.less -->
       <nav class="navbar blue-bg navbar-static-top"> 
@@ -119,10 +124,9 @@
               <li class="user-header">
                 <div class="pull-left user-img"></div>
                 <p class="text-left">{{session.pseudo}} <a><i class="fa fa-circle text-success"></i> en ligne</a><small>{{session.email}}</small> </p>
-                <div class="view-link text-left"><a href="{{url('user/profil/'~user_id)}}">Voir le profil</a> </div>
+                <div class="view-link text-left"><a href="{{url('user/profil')}}">Voir le profil</a> </div>
               </li>
-              <li><a href="{{url('user/profil/'~user_id)}}"><i class="icon-profile-male"></i> Mon Profil</a></li>
-              <li><a href="{{url('mailbox')}}"><i class="icon-envelope"></i> Boite de reception</a></li>
+              <li><a href="{{url('user/profil')}}"><i class="icon-profile-male"></i> Mon Profil</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="{{url('user/resetPassword')}}"><i class="icon-gears"></i> Changer mot de passe</a></li>
               <li role="separator" class="divider"></li>
@@ -163,8 +167,16 @@
         <li><a href="{{url('memoire')}}"><i class="fa fa-folder"></i> <span>Mémoires</span></a> 
           {% endif %}
 
-          <li><a href="{{url('user')}}"><i class="fa fa-user-circle "></i><span>Utilisateurs</span></a></li>
-          
+          <li class="">
+            <a href="#"><i class="fa fa-spinner"></i> <span>Administration</span></a>
+            <ul class="sub-menu">
+              <li><a href="{{url('user')}}"><i class="fa fa-user-circle "></i><span>Gestion des utilisateurs</span></a></li>
+              {% if session.role == 'ADMINISTRATEUR' %}
+              <li><a href="{{url('user/administrateur')}}"><i class="fa fa-user-circle"></i>Gestion des administrateurs</a></li>
+              {% endif %}
+            </ul>
+          </li>
+
           {% if session.role == 'ADMINISTRATEUR' %}
           <li class="">
             <a href="#"><i class="fa fa-spinner"></i> <span>Affectation des emprunts</span></a>
@@ -211,7 +223,7 @@
     <!-- /.content-wrapper -->
     <footer class="main-footer">
       <div class="pull-right hidden-xs">Version 1.0</div>
-    Copyright © 2021 BIBLIO. All rights reserved.</footer>
+Copyright © 2021 BIBLIO. All rights reserved.</footer>
 
     <!-- ./wrapper --> 
 

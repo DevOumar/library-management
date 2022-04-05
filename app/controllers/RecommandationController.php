@@ -47,29 +47,117 @@ class RecommandationController extends ControllerBase
         $this->view->form = $recommandationForm;
     }
 
-    public function detailsAction($id){
+    public function detailsAction($id = null){
 
-        if($id > 0){
-         $recommandation = Recommandation::findFirst($id);
-
-         if(!$recommandation){
-             $this->flash->error("Objet introuvable !"); 
-             $this->response->redirect("recommandation");
-
-             return;
-         }
-
-         $this->view->recommandation = $recommandation;
-
-     }else{
-         $this->flash->error("Erreur de requête !"); 
+        if ($id == null || !is_numeric($id)) {
+         $this->flash->error("Objet introuvable !");
          $this->response->redirect("recommandation");
+         return;
 
      }
- }
 
- public function deleteAction($id)
- {
+     $user_id = $this->session->get('id');
+
+     $user = Users::findFirst($user_id);
+
+     $recommandation = Recommandation::findFirst($id);
+
+     if($this->session->role != "ADMINISTRATEUR") {
+
+        if ($user_id !== $recommandation->user_id) {
+
+            $this->response->redirect("errors/show403");
+            return;
+        }
+    }
+
+    if($id > 0){
+
+       $recommandation = Recommandation::findFirst($id);
+
+       if(!$recommandation){
+
+           $this->flash->error("Objet introuvable !"); 
+           $this->response->redirect("recommandation");
+
+           return;
+       }
+
+       $this->view->recommandation = $recommandation;
+
+   }else{
+       $this->flash->error("Erreur de requête !"); 
+       $this->response->redirect("recommandation");
+
+   }
+}
+
+public function editAction($id = null)
+{
+
+   if ($id == null || !is_numeric($id)) {
+     $this->flash->error("Objet introuvable !");
+     $this->response->redirect("recommandation");
+     return;
+
+ }
+ $user_id = $this->session->get('id');
+
+ $user = Users::findFirst($user_id);
+
+ $recommandation = Recommandation::findFirst($id);
+
+ if($this->session->role != "ADMINISTRATEUR") {
+
+    if ($user_id !== $recommandation->user_id) {
+
+        $this->response->redirect("errors/show403");
+        return;
+    }
+}
+
+if ($id == null) {
+    $this->response->redirect("errors/show404");
+    return;
+}
+
+
+
+if ($id > 0) {
+
+    $recommandation = Recommandation::findFirst($id);
+    if (!$recommandation) {
+        $this->flash->error("Objet introuvable !");
+        $this->response->redirect("recommandation");
+        return;
+    }
+
+    $values = (array)$recommandation;
+
+    $this->tag->setDefaults($values);
+
+    $recommandationForm = new RecommandationForm();
+
+    if ($this->request->isPost()) {
+        $data = $this->request->getPost();
+
+        $recommandation = Recommandation::findFirst($id);
+
+        if ($recommandationForm->isValid($data, $recommandation)) {
+            if (!$recommandation->save()) {
+            }
+
+            $this->flash->success("Recommandation modifiée avec succès !");
+            $this->response->redirect("recommandation");
+        }
+    }
+    $this->view->form = $recommandationForm;
+    $this->view->recommandation = $recommandation;
+}
+}
+
+public function deleteAction($id)
+{
 
 
     if ($id > 0) {
@@ -95,43 +183,5 @@ class RecommandationController extends ControllerBase
 
     echo 0;
     exit;
-}
-
-
-public function editAction($id)
-{
-
-
-    if ($id > 0) {
-
-        $recommandation = Recommandation::findFirst($id);
-        if (!$recommandation) {
-            $this->flash->error("Objet introuvable !");
-            $this->response->redirect("recommandation");
-            return;
-        }
-
-        $values = (array)$recommandation;
-
-        $this->tag->setDefaults($values);
-
-        $recommandationForm = new RecommandationForm();
-
-        if ($this->request->isPost()) {
-            $data = $this->request->getPost();
-
-            $recommandation = Recommandation::findFirst($id);
-
-            if ($recommandationForm->isValid($data, $recommandation)) {
-                if (!$recommandation->save()) {
-                }
-
-                $this->flash->success("Recommandation modifiée avec succès !");
-                $this->response->redirect("recommandation");
-            }
-        }
-        $this->view->form = $recommandationForm;
-        $this->view->recommandation = $recommandation;
-    }
 }
 }
