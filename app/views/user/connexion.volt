@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CONNEXION | UTILISATEUR</title>
+  <title>CONNEXION | BIBLIOTHEQUE</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1" />
 
@@ -33,32 +33,48 @@
     <div class="login-box-body sty1">
       <div class="login-logo">
 
-     {#  <img src="{{url('img/logo-login.jpeg')}}" alt="logo" width="250">#}
+       {#  <img src="{{url('img/logo-login.jpeg')}}" alt="logo" width="250">#}
 
+     </div>
+     <p class="login-box-msg">Veuillez-vous connecter</p>
+     {{flash.output()}}
+     <form action="{{url('user/connexion')}}" method="post">
+      <input type="hidden" name="role" required id="account-type"/>
+      <div class="row d-flex d-justify-content-center d-align-iems-center mb-10">
+                      <div class="col-4">
+                        <button data-type="ETUDIANT" class="btn account-type btn-secondary btn-sm btn-block">
+                          <i class="fa fa-user" aria-hidden="true"></i>&nbsp;Etudiant</button>
+                      </div>
+                      <div class="col-4">
+                        <button data-type="PROFESSEUR" class="btn account-type btn-success btn-sm btn-block">
+                          <i class="fa fa-user" aria-hidden="true"></i>&nbsp;Professeur</button>
+                      </div>
+                      <div class="col-4">
+                        <button data-type="ADMINISTRATEUR" class="btn account-type btn-danger btn-sm btn-block text-truncate">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp; Administrateur</button>
+                      </div>
+                    </div>
+                    &nbsp;
+          <div class="form-group has-feedback">
+        <input type="email" class="form-control sty1" name="email" placeholder="Adresse e-mail">
       </div>
-      <p class="login-box-msg">Veuillez-vous connecter</p>
-      {{flash.output()}}
-      <form action="{{url('user/connexion')}}" method="post">
-        <div class="form-group has-feedback">
-          <input type="email" class="form-control sty1" name="email" placeholder="Adresse e-mail">
-        </div>
-        <div class="form-group has-feedback">
-          <input type="password" class="form-control sty1" name="password" placeholder="Mot de passe">
-        </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control sty1" name="password" placeholder="Mot de passe">
+      </div>
       <div class="checkbox icheck">
         <label>
           <a href="{{url('user/resetpasswordUser')}}" class="pull-right"><i class="fa fa-lock"></i> Mot de passe oublié?</a> </div>
           <div>
             <!-- /.col -->
             <div class="col-xs-4 m-t-1">
-              <button type="submit" class="btn btn-primary btn-block btn-flat">Se connecter</button>
+              <button type="submit" id="submit" disabled="" class="btn btn-primary btn-block btn-flat">Se connecter</button>
             </div>
             <!-- /.col --> 
           </div>
         </form>
         <div class="m-t-2">
-          <a href="{{url('user/inscription')}}" class="text-center">Inscrivez-vous gratuitement !</a></div>
-          <a href="{{url('accueil')}}" class="text-center">Retourner à la page d'accueil !</a></div>
+          <a href="{{url('user/inscription')}}" class="text-center">Inscrivez-vous gratuitement</a></div>
+          <a href="{{url('accueil')}}" class="text-center">Retourner à la page d'accueil</a></div>
 
           <!-- /.social-auth-links -->
 
@@ -72,9 +88,10 @@
 
       <!-- v4.0.0-alpha.6 --> 
       <script src="{{url('template/bootstrap/js/bootstrap.min.js')}}"></script> 
-
+      <script src="{{url('js/login.js')}}"></script>
       <!-- template --> 
       <script src="{{url('template/js/niche.js')}}"></script>
+
 
     </body>
     </html>

@@ -57,38 +57,38 @@ $di->setShared('view', function () {
                 'separator' => '_'
             ]);
 
-    $compiler = $volt->getCompiler();
-    $compiler->addFunction('in_array', 'in_array');
-    $compiler->addFunction('array_reverse', 'array_reverse');
-    $compiler->addFunction('round', 'round');
-    $compiler->addFunction('ucfirst', 'ucfirst');
-    $compiler->addFunction('date', 'date');
-    $compiler->addFunction('DateTime', 'DateTime');
-    $compiler->addFunction('getSize', 'getSize');
-    $compiler->addFunction('strtotime', 'strtotime');
-    $compiler->addFunction('strftime', 'strftime');
-    $compiler->addFunction('setlocale', 'setlocale');
-    $compiler->addFunction('substr', 'substr');
-    $compiler->addFunction('strlen', 'strlen');
-    $compiler->addFunction('number_format', 'number_format');
-    $compiler->addFunction('ceil', 'ceil');
-    $compiler->addFunction(' mb_strimwidth', ' mb_strimwidth');
-    $compiler->addFunction('strip_tags', 'strip_tags');
-    $compiler->addFunction('sprintf', 'sprintf');
-    $compiler->addFunction('explode', 'explode');
-    $compiler->addFunction('date_diff', 'date_diff');
-    $compiler->addFunction('strlen',
-        function($resolvedArgs, $exprArgs) use ($compiler) {
+            $compiler = $volt->getCompiler();
+            $compiler->addFunction('in_array', 'in_array');
+            $compiler->addFunction('array_reverse', 'array_reverse');
+            $compiler->addFunction('round', 'round');
+            $compiler->addFunction('ucfirst', 'ucfirst');
+            $compiler->addFunction('date', 'date');
+            $compiler->addFunction('DateTime', 'DateTime');
+            $compiler->addFunction('getSize', 'getSize');
+            $compiler->addFunction('strtotime', 'strtotime');
+            $compiler->addFunction('strftime', 'strftime');
+            $compiler->addFunction('setlocale', 'setlocale');
+            $compiler->addFunction('substr', 'substr');
+            $compiler->addFunction('strlen', 'strlen');
+            $compiler->addFunction('number_format', 'number_format');
+            $compiler->addFunction('ceil', 'ceil');
+            $compiler->addFunction(' mb_strimwidth', ' mb_strimwidth');
+            $compiler->addFunction('strip_tags', 'strip_tags');
+            $compiler->addFunction('sprintf', 'sprintf');
+            $compiler->addFunction('explode', 'explode');
+            $compiler->addFunction('date_diff', 'date_diff');
+            $compiler->addFunction('strlen',
+                function($resolvedArgs, $exprArgs) use ($compiler) {
 
-        $string= $compiler->expression($exprArgs[0]['expr']);
+                    $string= $compiler->expression($exprArgs[0]['expr']);
 
-        $secondArgument = $compiler->expression($exprArgs[1]['expr']);
+                    $secondArgument = $compiler->expression($exprArgs[1]['expr']);
 
-        return 'substr(' . $string . ', 0 ,' . $secondArgument . ')';
-    });
-    return $volt;
-    },
-    '.phtml' => PhpEngine::class
+                    return 'substr(' . $string . ', 0 ,' . $secondArgument . ')';
+                });
+            return $volt;
+        },
+        '.phtml' => PhpEngine::class
     ]);
     return $view;
 });
@@ -162,6 +162,10 @@ $di->set('flash', function () {
  * Start the session the first time some component request the session service
  */
 $di->setShared('session', function () {
+
+ 
+    ini_set('session.gc_maxlifetime', '7200');
+    session_set_cookie_params('7200');
     $session = new SessionManager();
     $files = new SessionAdapter([
         'savePath' => sys_get_temp_dir(),
@@ -171,6 +175,8 @@ $di->setShared('session', function () {
 
     return $session;
 });
+
+
 
 $di->set('messages', function() {
     $messages = new Messages();

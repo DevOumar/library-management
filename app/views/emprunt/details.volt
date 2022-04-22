@@ -1,9 +1,5 @@
 {% extends 'layouts/base.volt' %}
 {% block title %}Détail Emprunt{% endblock %}
-{% block addcss %}
-<link rel="stylesheet" href="{{url('template/plugins/dropify/dropify.min.css')}}">
-{{ stylesheet_link("template/vendor/sweetalert/dist/sweetalert.css") }}
-{% endblock %}
 {% block pageTitle %} Détail Emprunt{% endblock %}
 {% block breadcrumb %}
 <ol class="breadcrumb">
@@ -35,18 +31,18 @@
       <span class="text-muted pull-right">{{emprunt.getUsers().matricule}}</span>
       <hr>
       <strong><i class="fa fa-spinner margin-r-5"></i> Nom complet:</strong>
-      <span class="pull-right label label-warning">{{emprunt.getUsers().prenom}} {{emprunt.getUsers().nom}}</span>
+      <span class="pull-right">{{emprunt.getUsers().prenom}} {{emprunt.getUsers().nom}}</span>
       <hr>
       <strong><i class="fa fa-user margin-r-5"></i> Rôle:</strong>
-      <span class="pull-right label label-primary">{{emprunt.getUsers().role}}</span>
+      <span class="pull-right ">{{emprunt.getUsers().role}}</span>
       <hr>
       <strong><i class="fa fa-spinner margin-r-5"></i> Dernière connexion:</strong>
-      <span class="pull-right label label-warning">{% if emprunt.getUsers().datelastlogin != null %}
+      <span class="pull-right ">{% if emprunt.getUsers().datelastlogin != null %}
         {{date("d-m-Y \à H:i:s", strtotime(emprunt.getUsers().datelastlogin))}}
       {% endif %} </span>
       <hr>
       <strong><i class="fa fa-spinner margin-r-5"></i> Nom du livre:</strong>
-      <span class="pull-right label label-primary">{{emprunt.getLivre().nom_livre}}</span>
+      <span class="pull-right ">{{emprunt.getLivre().nom_livre |upper}}</span>
       <hr>
       <strong><i class="fa fa-spinner margin-r-5"></i> ISBN:</strong>
       <span class="pull-right label label-primary">{{emprunt.getLivre().isbn}}</span>

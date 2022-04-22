@@ -9,9 +9,10 @@ class NotificationController extends ControllerBase
 
         if($this->session->get('role') == "ADMINISTRATEUR"){
             $notifications = Notification::find(['read = false AND admin = true']);
-        }else{
-            $notifications = Notification::find(['read = false AND admin = false AND user_id = ?0', 'bind' =>[$this->session->get('id')], 'limit' => 10]);
         }
+         else{
+             $notifications = Notification::find(['read = true AND admin = true AND user_id = ?0', 'bind' =>[$this->session->get('id')], 'limit' => 10]);
+         }
 
         $this->view->notifs = $notifications;
     }

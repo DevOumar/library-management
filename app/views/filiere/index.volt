@@ -23,7 +23,7 @@
         <div class="card ">
             <div class="card-header bg-primary">
                 <h5 class="text-white m-b-0">Formulaire</h5>
-
+                <a href="{{url('filiere')}}" class="badge badge-info pull-right">Recharger</a>
             </div> 
             <div class="card-body">
                 <form method="POST" {% if filiere is defined %} action="{{url('filiere/index/'~filiere.id)}}" {% else %} action="{{url('filiere/new')}}" {% endif %}>
@@ -43,10 +43,14 @@
                                 </div>
                                 </div>
                             </div>
-                            <hr />
+                            <hr>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-success mr-10 pull-right">Ajouter</button>
+                                    {% if filiere is defined %}
+                                <button type="submit" class="btn btn-success mr-10 pull-right">Modifier</button>
+                                {% else %}
+                                <button type="submit" class="btn btn-success mr-10 pull-right">Ajouter</button>
+                                {% endif %}
                                 </div>
                             </div>
                         </form>

@@ -14,10 +14,10 @@
 
 {% block content %}
 <div class="info-box">
-   <div class="col-md-6">
-       {{flash.output()}}
-   </div>
-<div class="row m-t-3">
+ <div class="col-md-6">
+     {{flash.output()}}
+ </div>
+ <div class="row m-t-3">
     <div class="col-lg-12">
       <div class="card ">
         <div class="card-header bg-blue">
@@ -37,10 +37,18 @@
                 <label>Connexion précédente:</label>
                 {% if user.datelastlogin != null %}{{date("d-m-Y \à H:i:s", strtotime(user.datepreviouslogin))}}{% endif %}
             </div>
+            <div class="form-group">
+                <label>Statut profil : </label>
+                {% if user.status == 1 %}
+              <i class="fa fa-circle text-success"></i>&nbsp;<span style="color: green">Activé</span>
+                {% else %}
+              <i class="fa fa-circle text-danger"></i>&nbsp;<span style="color: red">Désactivé</span>
+                {% endif %}
+            </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    <label class="control-label">Matricule</label>
+                    <label class="control-label">Matricule<span class="text-muted"> (généré automatiquement)</span></label>
                     {{form.render("matricule")}}
                     <span class="fa fa-spinner form-control-feedback" aria-hidden="true"></span> </div>
                 </div>
@@ -72,8 +80,17 @@
                                     <div class="form-group has-feedback">
                                         <label class="control-label">Téléphone</label>
                                         {{form.render("telephone")}}
+                                        <span class="fa fa-phone form-control-feedback" aria-hidden="true"></span>
                                     </div>
                                 </div>
+                                {% if session.role == 'ETUDIANT' %}
+                                <div class="col-md-6">
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label">Filière</label>
+                                        {{form.render("id_filiere")}}
+                                    </div>
+                                </div>
+                                {% endif %}
                                 {% if session.role == 'ETUDIANT' %}
                                 <div class="col-md-6">
                                     <div class="form-group has-feedback">

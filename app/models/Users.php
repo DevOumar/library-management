@@ -50,6 +50,12 @@ class Users extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var integer
+     */
+    public $id_filiere;
+
+    /**
+     *
      * @var string
      */
     public $email;
@@ -143,7 +149,11 @@ class Users extends \Phalcon\Mvc\Model
     {
         $this->setSchema("BIBLIOS");
         $this->setSource("users");
-         $this->belongsTo('id_cycle', '\Cycle', 'id', ['alias' => 'Cycle']);
+        $this->hasMany('id', 'Emprunt', 'user_id', ['alias' => 'Emprunt']);
+        $this->hasMany('id', 'Notification', 'user_id', ['alias' => 'Notification']);
+        $this->hasMany('id', 'Recommandation', 'user_id', ['alias' => 'Recommandation']);
+        $this->belongsTo('id_cycle', '\Cycle', 'id', ['alias' => 'Cycle']);
+        $this->belongsTo('id_filiere', '\Filiere', 'id', ['alias' => 'Filiere']);
     }
 
     /**
@@ -168,7 +178,7 @@ class Users extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
-    // Nombre d'etudiants inscrits
+// Nombre d'etudiants inscrits
     public static function getStudentNumber($role = "ADMINISTRATEUR")
     {
         $studentNumber = [];

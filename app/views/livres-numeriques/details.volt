@@ -74,5 +74,3 @@
     <!-- /.content --> 
   </div>
   {% endblock %}
-{% block addjs %}
-{% endblock %}

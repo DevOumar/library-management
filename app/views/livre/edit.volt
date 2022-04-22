@@ -1,10 +1,6 @@
 {% extends 'layouts/base.volt' %}
 {% block title %}Mise à jour de {{livre.nom_livre}} {% endblock %}
 {% block pageTitle %} {{livre.nom_livre}} {% endblock %}
-{% block addcss %}
-<!-- DataTables -->
-<link rel="stylesheet" href="{{url('template/plugins/datatables/css/dataTables.bootstrap.min.css')}}">
-{% endblock %}
 {% block breadcrumb %}
 <ol class="breadcrumb">
     <li><a href="{{url('livre')}}">Livre</a></li>
@@ -81,9 +77,4 @@
           </div>
       </div>
   </div>
-  {% endblock %}
-  {% block addjs %}
-  <!-- DataTable --> 
-  <script src="{{url('template/plugins/datatables/jquery.dataTables.min.js')}}"></script> 
-  <script src="{{url('template/plugins/datatables/dataTables.bootstrap.min.js')}}"></script> 
   {% endblock %}

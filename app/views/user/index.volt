@@ -8,7 +8,7 @@
 {% endblock %}
 {% block breadcrumb %}
 <ol class="breadcrumb">
-    <li><a href="{{url('dashboard')}}">Accueil oj</a></li>
+    <li><a href="{{url('dashboard')}}">Accueil</a></li>
     <li><i class="fa fa-angle-right"></i> utilisateurs</li>
 </ol>
 {% endblock %}
@@ -32,7 +32,7 @@
             <th>E-mail</th>
             <th>Téléphone</th>
             <th>Rôle</th>
-            <th>{% if in_array(session.role, ["ADMINISTRATEUR","ETUDIANT"]) %}Cycle{% endif %}</th>
+            <th>{% if in_array(session.role, ["ADMINISTRATEUR","ETUDIANT"]) %}Cycle/Filière{% endif %}</th>
             <th>Status</th>
             <th>Dernière connexion</th>
             <th>Date de création</th>
@@ -71,7 +71,7 @@
     <td>{{user.telephone}}</span></td>
     <td><span class="label label-primary">{{user.role}}</span></td>
     
-    <td>{% if user.id_cycle != null %}<span class="label label-primary">{{user.getCycle().libelle}}</span>{% endif %}</td>
+    <td>{% if user.id_cycle != null and user.id_filiere != null %}<span class="label label-primary">{{user.getCycle().libelle}}/{{user.getFiliere().libelle}}</span>{% endif %}</td>
     
 
     <td>

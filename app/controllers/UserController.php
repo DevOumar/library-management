@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 use Phalcon\Security\Exception;
 use Ramsey\Uuid\Uuid;
+use Phalcon\Security\Random;
 
 class UserController extends ControllerBase
 {
 
     public function indexAction($type = null)
     {
+
+        
 
         // Filtrage par étudiant par compte
         $user_id = $this->session->get('id');
@@ -125,11 +128,12 @@ class UserController extends ControllerBase
                 $user->initials = $user->nom[0] . '.' . $user->prenom[0];
                 $user->password = $this->security->hash("123456");
                 $user->id_cycle = ($user->role != "ETUDIANT") ? NULL : $user->id_cycle;
+                $user->id_filiere = ($user->role != "ETUDIANT") ? NULL : $user->id_filiere;
                 $user->save();
 
                 if (!$user->save()) {
                 }
-                $this->flash->success("L'étudiant " . ($user->prenom) . " " . strtoupper($user->nom) . " a été crée avec succès.");
+                $this->flash->success("L'utilisateur " . ($user->prenom) . " " . strtoupper($user->nom) . " a été crée avec succès.");
                 $this->response->redirect("user");
             } else {
             }
@@ -286,6 +290,7 @@ class UserController extends ControllerBase
                 // $user->id_role = 3;
                 $user->create_date = date('Y-m-d H:i:s');
                 $user->id_cycle = ($user->role != "ETUDIANT") ? NULL : $user->id_cycle;
+                $user->id_filiere = ($user->role != "ETUDIANT") ? NULL : $user->id_filiere;
                 $user->initials = $user->nom[0] . '.' . $user->prenom[0];
                 $user->password = $this->security->hash($user->password);
                 $user->token_activation = $uuid;
@@ -345,6 +350,7 @@ class UserController extends ControllerBase
 
         if ($this->request->isPost()) {
             $data = $this->request->getPost();
+           // var_dump($data);exit();
             if (empty($data["email"]) && empty($data["password"])) {
                 $this->flash->error("Veuillez saisir votre identifiant et votre mot de passe");
             } else {
@@ -355,6 +361,13 @@ class UserController extends ControllerBase
                     ]
                 ]);
 
+                  if ($data['role'] !== $user->role) {
+                    
+                      $this->flash->error("Vous n'êtes pas autorisé à accéder à cette ressource !");
+                      $this->response->redirect("user/connexion");
+                      return;
+                  }
+                
                 if ($user && $this->security->checkHash($data["password"], $user->password)) {
 
                     if ($user->status == false or $user->status == NULL) {
@@ -380,8 +393,9 @@ class UserController extends ControllerBase
     public function logoutAction()
     {
         $this->session->destroy();
-        $this->flash->success("Vous êtes déconnecté !");
-        $this->response->redirect("user/connexion");
+        $this->flash->error("Vous êtes déconnecté !");
+        $this->response->redirect("user?access=out");
+        return;
     }
 
     public function profilAction()
@@ -602,17 +616,17 @@ class UserController extends ControllerBase
             ]);
 
             if (isset($verifUserExist) == 1) {
-                echo "<span style='color:red'> Cet adresse e-mail est déjà utilisée.</span>";
+                echo "<span style='color:red'> cet adresse e-mail est déjà utilisée.</span>";
                 echo "<script>$('#submit').prop('disabled',true);</script>";
                 if ($verifUserExist->status == false) {
                     echo "<span style='color:red'> Compte utilisateur bloqué.</span>";
                     echo "<script>$('#submit').prop('disabled',true);</script>";
                 }
             } elseif (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
-                echo "<span style='color:red'> Saisissez une adresse e-mail valide.</span>";
+                echo "<span style='color:red'> saisissez une adresse e-mail valide.</span>";
                 echo "<script>$('#submit').prop('disabled',true);</script>";
             } else {
-                echo "<span style='color:green'> Adresse e-mail disponible pour inscription.</span>";
+                echo "<span style='color:green'> adresse e-mail disponible pour inscription.</span>";
                 echo "<script>$('#submit').prop('disabled',false);</script>";
             }
         }

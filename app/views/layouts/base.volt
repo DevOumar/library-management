@@ -94,7 +94,7 @@
                 <li>
                   <ul class="menu">
                     {% for notif in notifications %}
-                    <li><a {% if notif.url != null %} href="{{notif.url}}/{{notif.id}}" {% else %}href="#"{% endif %}>
+                    <li><a {% if notif.url != null %} href="{{notif.url}}" {% else %}href="#"{% endif %}>
                       <div class="pull-left icon-circle red"><i class="icon-lightbulb"></i></div>
                       <p>{{notif.message}}</p>
                       <p style="" title="{{notif.message}}"><span class="time">{{date('d/m/Y \à H:i', strtotime(notif.create_date))}}</span></p>
@@ -116,9 +116,9 @@
             {% endif %}
             {% endif %}
             <span class="d-none d-lg-inline">
-              {% if in_array(session.role, ['ADMINISTRATEUR']) %}{{session.prenom}} {{session.nom}} | {{session.role}}{% endif %}
-              {% if in_array(session.role, ['PROFESSEUR']) %}{{session.prenom}} {{session.nom}} | {{session.role}}{% endif %}
-              {% if in_array(session.role, ['ETUDIANT']) %}{{session.prenom}} {{session.nom}} | {{session.libelle}}{% endif %}
+              {% if in_array(session.role, ['ADMINISTRATEUR']) %}{{session.prenom}} {{session.nom |upper}} | {{session.role}}{% endif %}
+              {% if in_array(session.role, ['PROFESSEUR']) %}{{session.prenom}} {{session.nom |upper}} | {{session.role}}{% endif %}
+              {% if in_array(session.role, ['ETUDIANT']) %}{{session.prenom}} {{session.nom |upper}} | {{session.libelle}}{% endif %}
             </span></a>
             <ul class="dropdown-menu">
               <li class="user-header">

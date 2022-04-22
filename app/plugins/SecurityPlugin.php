@@ -136,8 +136,8 @@ class SecurityPlugin extends Injectable
                 'action' => 'connexion'
             ));
 
-            //$this->session->destroy();
-            return false;
+            $this->session->destroy();
+            return true;
         }
     }
 }

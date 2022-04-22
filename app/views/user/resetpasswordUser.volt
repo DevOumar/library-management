@@ -51,7 +51,7 @@
               <button type="submit" class="btn btn-primary btn-block btn-flat">Envoyer ma demande</button>
             </div>
             <p>
-              <a href="{{url('user/connexion')}}" class="text-center">Retourner en arrière !</a>
+              <a href="{{url('user/connexion')}}" class="text-center"><i class="fa fa-arrow-left"></i> Retourner en arrière</a>
             </p>
             <!-- /.col --> 
           </div>

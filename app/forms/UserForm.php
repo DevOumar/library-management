@@ -12,6 +12,7 @@ use Phalcon\Forms\Element\File;
 use Phalcon\Forms\Element\Date;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Security\Random;
 
 class UserForm extends Form
 {
@@ -62,6 +63,10 @@ class UserForm extends Form
     ]);
         $this->add($id_cycle);
 
+        $id_filiere = new Select( 'id_filiere', Filiere::find(), [ "data-placeholder" => "Choisir....", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir votre filière", "id" => "id_filiere", "using" => ["id", "libelle"]
+    ]);
+        $this->add($id_filiere);
+
         $email = new Email('email', [ "class" => "form-control", "required" => "required", "name" => "email", "placeholder" => "E-mail", "onBlur" => "getinfos()", "id" => "email" ]);
         $email->addValidator(
             new PresenceOf(
@@ -75,7 +80,7 @@ class UserForm extends Form
         $photo = new File('photo', [ "id" => "input-file-now", "enctype" => "multipart/form-data", "method"  => "post", "class" => "dropify"]);
         $this->add($photo);
 
-        $telephone = new Text('telephone', [ "class" => "form-control", "required" => "required", "name" => "telephone", "id" => "telephone"]);
+        $telephone = new Numeric('telephone', [ "class" => "form-control", "required" => "required", "name" => "telephone", "id" => "telephone"]);
         $telephone->addValidator(
             new PresenceOf(
                 [
@@ -89,12 +94,12 @@ class UserForm extends Form
         
         $this->add($role);
 
-        $password = new Password('password', [ "class" => "form-control", "required" => "required", "name" => "password", "id" => "password", "placeholder" => "Mot de passe" ]);
-       
+        $password = new Password('password', [ "class" => "form-control", "required" => "required", "name" => "password", "id" => "current-password", "placeholder" => "Mot de passe" ]);
+
         $this->add($password);
 
-        $con_password = new Password('con_password', [ "class" => "form-control", "required" => "required", "name" => "con_password", "id" => "con_password", "placeholder" => "Retapez votre mot de passe", "onkeyup" => "verif();" ]);
-       
+        $con_password = new Password('con_password', [ "class" => "form-control", "required" => "required", "name" => "con_password", "id" => "con-password", "placeholder" => "Retapez votre mot de passe", "onkeyup" => "verif();" ]);
+
         $this->add($con_password);
         
         $status = new Select( 'status', ["1" => "Activé", "0" => "Désactivé"], [ "class" => "form-control", "required"=> "required", "useEmpty" => true, "emptyText" => "Choisir" ]);
@@ -105,15 +110,15 @@ class UserForm extends Form
 
     }
 
+
+
+
+
     private function generateCodeMatricule(){
-        $last = Users::findFirst(['order' => 'id desc']);
-        if(!$last){
-            
-            return 'MAE'.date('my').'-00001';
-        }
-            $split = explode('-', $last->matricule);
-            return 'MAE'.date('my').'-'.sprintf('%05d',$split[1]+1);
-       
+        $random = new Random();
+
+        return strtoupper('mae-').strtoupper($random->base62(8));
+
     } 
     
 }

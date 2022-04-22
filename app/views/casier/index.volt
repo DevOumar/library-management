@@ -23,7 +23,7 @@
         <div class="card ">
             <div class="card-header bg-primary">
                 <h5 class="text-white m-b-0">Formulaire</h5>
-
+                <a href="{{url('casier')}}" class="badge badge-info pull-right">Recharger</a>
             </div> 
             <div class="card-body">
                 <form method="POST" {% if casier is defined %} action="{{url('casier/index/'~casier.id)}}" {% else %} action="{{url('casier/new')}}" {% endif %}>
@@ -38,7 +38,11 @@
                         <hr />
                         <div class="row">
                             <div class="col-md-12">
+                                {% if casier is defined %}
+                                <button type="submit" class="btn btn-success mr-10 pull-right">Modifier</button>
+                                {% else %}
                                 <button type="submit" class="btn btn-success mr-10 pull-right">Ajouter</button>
+                                {% endif %}
                             </div>
                         </div>
                         </form>

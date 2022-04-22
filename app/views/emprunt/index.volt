@@ -113,7 +113,7 @@ Emprunt
 							<?php endif ?>
 						</td>
 						<td>
-							<span class="label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', ' ')}}</span>
+							<span class="label label-{% if emprunt.amende == null %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', '. ')}}</span>
 						</td>
 						
 						<td>

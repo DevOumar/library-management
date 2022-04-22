@@ -93,7 +93,8 @@ Historique de mes emprunts
 						{% endif %}
 						<td>
 							{% if emprunt.retour_emprunt == "" or emprunt.retour_emprunt == NULL %}
-							<span class="label label-danger">{{date('d-m-Y',strtotime(emprunt.delai_livre))}}</span>
+							<span class="label label-danger">{{date('d/m
+							/Y',strtotime(emprunt.delai_livre))}}</span>
 							<?php
 								$date1 = new DateTime("now");
 								$date2 = new DateTime($emprunt->delai_livre . ' 23:59:59.999999');
@@ -118,11 +119,11 @@ Historique de mes emprunts
 									<?php endif ?>
 									<?php if (($date1 > $date2) && $emprunt->amende != NULL ) : ?>
 									<span class="fa fa-circle" style="color:#ff0000;"></span>
-									Retourner en retard
+									Retard
 									<?php endif ?>
 								</td>
 								<td>
-									<span class="label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', ' ')}}</span>
+									<span class="label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', '. ')}}</span>
 								</td>
 								<td>
 									{% if emprunt.retour_status == 1 %}

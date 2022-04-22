@@ -90,7 +90,7 @@
 						<td>{{date('d-m-Y',strtotime(emprunt.date_emprunt))}}</td>
 						<td>{{date('d-m-Y',strtotime(emprunt.delai_livre))}}</td>
 						<td>{{date('d-m-Y',strtotime(emprunt.retour_emprunt))}}</td>
-						<td>{{number_format(emprunt.amende, 0, '',' ')}}</td>
+						<td>{{number_format(emprunt.amende, 0, '','. ')}}</td>
 					</tr>
 				</table>
 				<br>

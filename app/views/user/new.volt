@@ -69,10 +69,17 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group has-feedback">
+                                        <select class="custom-select form-control" {{form.render("id_filiere")}}
+                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-feedback">
                                         <label class="control-label">Téléphone</label>
                                         {{form.render("telephone")}}
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -91,14 +98,25 @@
 <script>
 $(document).ready(function () {
     $("select#id_cycle").hide();
-
+    $("select#id_filiere").hide();
+    
     $("select#role").change(function (e) {
         //.preventDefault();
 
         if (e.target.value === "ETUDIANT") {
+
             $("select#id_cycle").show();
-        } else {
+            $("select#id_filiere").show();
+             $("select#id_cycle").attr("required","required");
+             $("select#id_filiere").attr("required","required");
+           
+            
+        }else {
             $("select#id_cycle").hide();
+            $("select#id_filiere").hide();
+            $("select#id_cycle").removeAttr("required");
+            $("select#id_filiere").removeAttr("required");
+            
         }
     });
 });

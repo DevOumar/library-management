@@ -99,11 +99,11 @@ emprunts
 								<?php endif ?>
 								<?php if (($date1 > $date2) && $emprunt->amende != NULL ) : ?>
 								<span class="fa fa-circle" style="color:#ff0000;"></span>
-								Retourner en retard
+								Retard
 								<?php endif ?>
 							</td>
 							<td>
-								<span class="label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', ' ')}}</span>
+								<span class="label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', '. ')}}</span>
 							</td>
 							<td>
 								<a href="{{url('emprunt/details/'~emprunt.id)}}" title="Details de l'emprunt">

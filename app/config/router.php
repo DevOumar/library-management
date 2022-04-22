@@ -11,7 +11,9 @@ $router->addGet(
 
 $router->addGet(
 	'/logout',
-	'users::logout'
+	'user::connexion'
 );
+
+
 
 $router->handle($_SERVER['REQUEST_URI']);

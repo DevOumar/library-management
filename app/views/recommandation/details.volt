@@ -104,5 +104,3 @@ Détail Livre Recommandation
 </div>
 </div></div></div><!-- Main row --></div><!-- /.content --></div>
 {% endblock %}
-{% block addjs %}
-{% endblock %}

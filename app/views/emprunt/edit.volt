@@ -94,7 +94,7 @@
 					</span>
 					{% endif %}
 				</div>
-				<div class="form-group">
+				<div class="pull-left form-group">
 					{% if emprunt.amende == "" %}
 					<label class="control-label">Amende ( Prix en F CFA ):</label>
 					{{form.render("amende")}}
@@ -102,7 +102,7 @@
 				{% else %}
 				<div class="form-group">
 					<label>Amende:</label>
-					<span class="label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', ' ')}}
+					<span class="label label-{% if emprunt.amende == 0 %}danger{% else %}success{% endif %}">{{number_format( emprunt.amende,0, '', '. ')}}
 					F CFA</span>
 				</div>
 				{% endif %}

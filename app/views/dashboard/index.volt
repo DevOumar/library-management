@@ -195,18 +195,18 @@
                     <i class="icon-layers"></i>
                 </span>
                 <div class="info-box-content">
-                   <span class="info-box-number">{{studentIssueReturn |length}}</span>
-                   <span class="info-box-text">Livres empruntés & retournés</span>
-               </div>
-               <!-- /.info-box-content -->
+                 <span class="info-box-number">{{studentIssueReturn |length}}</span>
+                 <span class="info-box-text">Livres empruntés & retournés</span>
+             </div>
+             <!-- /.info-box-content -->
 
-           </div>
-       </a>
-   </div>
-   {% endif %}
-   <!-- /.col -->
-   {% if in_array(session.role, ['PROFESSEUR']) %}
-   <div class="col-lg-3 col-xs-6">
+         </div>
+     </a>
+ </div>
+ {% endif %}
+ <!-- /.col -->
+ {% if in_array(session.role, ['PROFESSEUR']) %}
+ <div class="col-lg-3 col-xs-6">
     <a href="{{url('emprunt/index/non-retourne')}}">
         <div class="info-box">
             <span class="info-box-icon bg-red">
@@ -336,7 +336,7 @@
     </div>
 </div>
 <div class="m-t-2">
-   <canvas id="pie-chart" height="210"></canvas>
+ <canvas id="pie-chart" height="210"></canvas>
 </div>
 </div>
 </div>
@@ -367,9 +367,7 @@
                                 <div class="media align-items-center">
                                     <div class="media-img-wrap d-flex mr-10">
                                         <div class="avatar avatar-sm">
-                                            {% if lastStudent.photo != null %}
-                                            <img src="{{url('files/users_upload/'~lastStudent.photo)}}" class="avatar-text avatar-text-primary rounded-circle" alt="User Image">
-                                            {% else %}
+                                            
                                             <span class="avatar-text avatar-text-purple rounded-circle">
                                                 <span class="initial-wrap">
                                                     <span>{{lastStudent.initials}}</span>
@@ -377,7 +375,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    {% endif %}
+                                    
                                     <div class="media-body">
                                         <div class="text-capitalize font-weight-500 text-dark">
                                             <span>{{lastStudent.matricule}}</span>
@@ -387,7 +385,7 @@
                             </td>
                             <td>{{lastStudent.prenom}}
                             {{lastStudent.nom |upper}}</td>
-                            <td>{{lastStudent.getCycle().libelle}}</td>
+                            <td>{{lastStudent.getCycle().libelle}}/{{lastStudent.getFiliere().libelle}}</td>
                             <td>{{lastStudent.email}}</td>
 
                         </tr>
@@ -427,9 +425,7 @@
                                 <div class="media align-items-center">
                                     <div class="media-img-wrap d-flex mr-10">
                                         <div class="avatar avatar-sm">
-                                            {% if lastTeacher.photo != null %}
-                                            <img src="{{url('files/users_upload/'~lastTeacher.photo)}}" class="avatar-text avatar-text-primary rounded-circle" alt="User Image">
-                                            {% else %}
+                                            
                                             <span class="avatar-text avatar-text-teal rounded-circle">
                                                 <span class="initial-wrap">
                                                     <span>{{lastTeacher.initials}}</span>
@@ -437,7 +433,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    {% endif %}
+                                    
                                     <div class="media-body">
                                         <div class="text-capitalize font-weight-500 text-dark">
                                             <span>{{lastTeacher.matricule}}</span>

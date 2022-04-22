@@ -15,14 +15,17 @@
 
 {% block content %}
 <div class="info-box">
-   <div class="col-md-6">
-       {{flash.output()}}
-   </div>
-   <div class="row">
+ <div class="col-md-6">
+     {{flash.output()}}
+ </div>
+ <div class="row">
     <div class="col-xl-4">
         <div class="card ">
             <div class="card-header bg-primary">
                 <h5 class="text-white m-b-0">Formulaire</h5>
+                
+                <a href="{{url('auteur')}}" class="badge badge-info pull-right">Recharger</a>
+                
 
             </div> 
             <div class="card-body">
@@ -38,38 +41,42 @@
                         <hr />
                         <div class="row">
                             <div class="col-md-12">
+                                {% if auteur is defined %}
+                                <button type="submit" class="btn btn-success mr-10 pull-right">Modifier</button>
+                                {% else %}
                                 <button type="submit" class="btn btn-success mr-10 pull-right">Ajouter</button>
+                                {% endif %}
                             </div>
                         </div>
-                        </form>
-                    </div>
-                     
+                    </form>
                 </div>
+                
             </div>
+        </div>
         <div class="col-xl-8">
-           <div class="card ">
+         <div class="card ">
 
             <div class="card-header bg-primary">
-               <h4 class="text-white m-b-0">Liste des auteurs({{auteurs |length}})</h4>
-           </div>
-           <div class="card-body">
-               <hr />
-               <div class="table-responsive">
-                  <table id="dataList" class="table table-bordered table-hover" data-name="cool-table">
-                    <thead>
-                      <tr>
-                        <th>ID #</th>
-                        <th>Auteurs</th>
-                        <th>Date de création</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for k,auteur in auteurs %}
-                    <tr>
-                        <td>{{k+1}}</td>
-                        <td>{{auteur.nom_auteur |upper}}</td>
-                        <td>{{date('d/m/Y \à H:i',strtotime(auteur.create_date))}}</td>
+             <h4 class="text-white m-b-0">Liste des auteurs({{auteurs |length}})</h4>
+         </div>
+         <div class="card-body">
+             <hr />
+             <div class="table-responsive">
+              <table id="dataList" class="table table-bordered table-hover" data-name="cool-table">
+                <thead>
+                  <tr>
+                    <th>ID #</th>
+                    <th>Auteurs</th>
+                    <th>Date de création</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for k,auteur in auteurs %}
+                <tr>
+                    <td>{{k+1}}</td>
+                    <td>{{auteur.nom_auteur |upper}}</td>
+                    <td>{{date('d/m/Y \à H:i',strtotime(auteur.create_date))}}</td>
                     <td>
                         <a href="{{url('auteur/index/'~auteur.id)}}"><i class="fa fa-edit"></i></a>
                         <a href="#" class="supelm" data-id = {{auteur.id}}><i class="fa fa-trash"></i></a>
@@ -116,18 +123,18 @@ $('body').on('click', '.supelm', function (e) {
         if(result = "1"){
             $(currentTr).css('background-color', '#ff9933').fadeOut(1000, function(){ $(this).remove();});
             swal(
-            'Supprimé!',
-            'L\'element  a été supprimée avec succès.',
-            'success'
-            );
+                'Supprimé!',
+                'L\'element  a été supprimée avec succès.',
+                'success'
+                );
             location.reload();
         }
         else{
             swal(
-            'Impossible de supprimer. Objet lié !',
-            'Erreur de suppression',
-            'error'
-            );
+                'Impossible de supprimer. Objet lié !',
+                'Erreur de suppression',
+                'error'
+                );
         }
     });
 });

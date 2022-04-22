@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>INSCRIPTION | UTILISATEUR</title>
+  <title>INSCRIPTION | BIBLIOTHEQUE</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1" />
 
@@ -67,6 +67,10 @@
       </select>
     </div>
     <div class="form-group has-feedback">
+        <select class="custom-select form-control" name="id_filiere" {{form.render("id_filiere")}}
+      </select>
+    </div>
+    <div class="form-group has-feedback">
       {{form.render("password")}}
     </div>
     <div class="form-group has-feedback">
@@ -76,12 +80,12 @@
     
         <!-- /.col -->
         <div class="col-xs-4 m-t-1">
-          <button type="submit" id="submit" class="btn btn-primary btn-block btn-flat">S'inscrire</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">S'inscrire</button>
         </div>
         <!-- /.col --> 
      
     </form>
-    <div class="m-t-2">Avez-vous déjà un compte? <a href="{{url('user/connexion')}}" class="text-center">Connectez-vous facilement !</a></div>
+    <div class="m-t-2">Avez-vous déjà un compte? <a href="{{url('user/connexion')}}" class="text-center">Connectez-vous facilement</a></div>
   </div>
   <!-- /.login-box-body --> 
 </div>
@@ -124,8 +128,8 @@
   </script>
 <script>
 function verif() {
-  var a = document.getElementById("password").value;
-  var b = document.getElementById("con_password").value;
+  var a = document.getElementById("current-password").value;
+  var b = document.getElementById("con-password").value;
   result = document.getElementById("result");
   if (a!=b) {
    result.innerHTML= "<p class='text-danger'>Oops,les deux mots de passe ne sont pas identiques.</p>";

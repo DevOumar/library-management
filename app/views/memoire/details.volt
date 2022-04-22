@@ -1,9 +1,5 @@
 {% extends 'layouts/base.volt' %}
 {% block title %}Détail Mémoire{% endblock %}
-{% block addcss %}
-<link rel="stylesheet" href="{{url('template/plugins/dropify/dropify.min.css')}}">
-{{ stylesheet_link("template/vendor/sweetalert/dist/sweetalert.css") }}
-{% endblock %}
 {% block pageTitle %} Détail Mémoire{% endblock %}
 {% block breadcrumb %}
 <ol class="breadcrumb">
@@ -11,7 +7,6 @@
   <li><i class="fa fa-angle-right"></i> Détail Mémoire</li>
 </ol>
 {% endblock %}
-
 {% block content %}
 {{flash.output()}}
 <div class="row">
@@ -33,10 +28,10 @@
         <span class="text-muted pull-right">{{memoire.nom_memoire}}</span>
         <hr>
         <strong><i class="fa fa-spinner margin-r-5"></i> Catégorie:</strong>
-        <span class="pull-right label label-warning">{{memoire.getCategorie().libelle}}</span>
+        <span class="pull-right">{{memoire.getCategorie().libelle |upper}}</span>
         <hr>
         <strong><i class="fa fa-user margin-r-5"></i> Auteur:</strong>
-        <span class="pull-right label label-warning">{{memoire.getAuteur().nom_auteur}}</span>
+        <span class="pull-right">{{memoire.getAuteur().nom_auteur |upper}}</span>
         <hr>
         <strong><i class="fa fa-spinner margin-r-5"></i> Filière:</strong>
         <span class="pull-right label label-warning">{{memoire.getFiliere().libelle}} </span>
@@ -60,7 +55,4 @@
       <!-- /.box-body --> 
     </div>
   </div>
-
-  {% endblock %}
-  {% block addjs %}
   {% endblock %}

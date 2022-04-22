@@ -1,9 +1,5 @@
 {% extends 'layouts/base.volt' %}
 {% block title %}Détail Livre{% endblock %}
-{% block addcss %}
-<link rel="stylesheet" href="{{url('template/plugins/dropify/dropify.min.css')}}">
-{{ stylesheet_link("template/vendor/sweetalert/dist/sweetalert.css") }}
-{% endblock %}
 {% block pageTitle %} Détail Livre{% endblock %}
 {% block breadcrumb %}
 <ol class="breadcrumb">
@@ -30,13 +26,13 @@
     <div class="col-lg-8">
     <div class="info-box">
         <strong><i class="fa fa-spinner margin-r-5"></i> Nom du livre:</strong>
-        <span class="text-muted pull-right">{{livre.nom_livre}}</span>
+        <span class="text-muted pull-right">{{livre.nom_livre |upper}}</span>
         <hr>
         <strong><i class="fa fa-spinner margin-r-5"></i> Catégorie:</strong>
-        <span class="pull-right label label-warning">{{livre.getCategorie().libelle}}</span>
+        <span class="pull-right label">{{livre.getCategorie().libelle |upper}}</span>
         <hr>
         <strong><i class="fa fa-user margin-r-5"></i> Auteur:</strong>
-        <span class="pull-right label label-warning">{{livre.getAuteur().nom_auteur}}</span>
+        <span class="pull-right label">{{livre.getAuteur().nom_auteur |upper}}</span>
         <hr>
         <strong><i class="fa fa-spinner margin-r-5"></i> ISBN:</strong>
         <span class="pull-right label label-warning">{{livre.isbn}} </span>

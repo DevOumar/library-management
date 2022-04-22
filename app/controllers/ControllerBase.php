@@ -19,12 +19,14 @@ class ControllerBase extends Controller
         // affichage notification
         $user_role =$this->session->get('role');
         
+        
 
         if($this->session->get('role') == "ADMINISTRATEUR"){
             $notifications = Notification::find(['read = false AND admin = true', 'limit' => 10]);
-        }else{
-            $notifications = Notification::find(['read = false AND admin = false AND user_id = ?0', 'bind' =>[$this->session->get('id')], 'limit' => 10]);
         }
+         else{
+             $notifications = Notification::find(['read = false AND admin = false AND user_id = ?0', 'bind' =>[$this->session->get('id')], 'limit' => 10]);
+         }
 
         $this->view->notifications = $notifications;
         $this->view->notifs = $notifications;
