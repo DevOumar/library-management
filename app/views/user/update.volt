@@ -14,44 +14,25 @@
 
 {% block content %}
 <div class="info-box">
- <div class="col-md-6">
-     {{flash.output()}}
- </div>
- <div class="row m-t-3">
+   <div class="col-md-6">
+       {{flash.output()}}
+   </div>
     <div class="col-lg-12">
       <div class="card ">
         <div class="card-header bg-blue">
           <h5 class="text-white m-b-0">Modifier votre profil</h5>
       </div>
       <div class="card-body">
-          <form method="POST" action="{{url('user/profil/'~user.id)}}" enctype="multipart/form-data">
-            <div class="form-group">
-                <label>Date de création de compte:</label>
-                {{date('d-m-Y \à H:i',strtotime(user.create_date))}}
-            </div>
-            <div class="form-group">
-                <label>Dernière connexion:</label>
-                {% if user.datelastlogin != null %}{{date("d-m-Y \à H:i:s", strtotime(user.datelastlogin))}}{% endif %}
-            </div>
-            <div class="form-group">
-                <label>Connexion précédente:</label>
-                {% if user.datelastlogin != null %}{{date("d-m-Y \à H:i:s", strtotime(user.datepreviouslogin))}}{% endif %}
-            </div>
-            <div class="form-group">
-                <label>Statut profil : </label>
-                {% if user.status == 1 %}
-              <i class="fa fa-circle text-success"></i>&nbsp;<span style="color: green">Activé</span>
-                {% else %}
-              <i class="fa fa-circle text-danger"></i>&nbsp;<span style="color: red">Désactivé</span>
-                {% endif %}
-            </div>
+        <form method="POST" action="{{url('user/update/'~user.id)}}" enctype="multipart/form-data">
             <div class="row">
+                {% if user.matricule is defined %}
               <div class="col-md-6">
                 <div class="form-group has-feedback">
                     <label class="control-label">Matricule<span class="text-muted"> (généré automatiquement)</span></label>
                     {{form.render("matricule")}}
                     <span class="fa fa-spinner form-control-feedback" aria-hidden="true"></span> </div>
                 </div>
+                {% endif %}
                 <div class="col-md-6">
                     <div class="form-group has-feedback">
                         <label class="control-label">Nom</label>
@@ -73,7 +54,7 @@
                             <div class="col-md-6">
                                 <div class="form-group has-feedback">
                                     <label class="control-label">Adresse e-mail</label>
-                                    {{form.render("email")}}
+                                    {{form.render("email" , {"disabled" : "disabled"})}}
                                     <span class="fa fa-envelope form-control-feedback" aria-hidden="true"></span> </div>
                                 </div>
                                 <div class="col-md-6">
@@ -87,7 +68,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group has-feedback">
                                         <label class="control-label">Filière</label>
-                                        {{form.render("id_filiere")}}
+                                        {{form.render("id_filiere", {"disabled" : "disabled"})}}
                                     </div>
                                 </div>
                                 {% endif %}
@@ -95,17 +76,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group has-feedback">
                                         <label class="control-label">Cycle</label>
-                                        {{form.render("id_cycle")}}
+                                        {{form.render("id_cycle", {"disabled" : "disabled"})}}
                                     </div>
                                 </div>
                                 {% endif %}
-                                <div class="col-md-6">
-                                    <div class="form-group has-feedback">
-                                        <label class="control-label">Status</label>
-                                        {{form.render("status")}}
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-md-8 rounded mx-auto d-block">
                                     <div class="card">
                                       <div class="card-body">
                                         <h4 class="text-black">Photo de profil</h4>

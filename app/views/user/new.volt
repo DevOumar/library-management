@@ -11,9 +11,9 @@
 {% endblock %}
 {% block content %}
 <div class="col-md-6">
-{{flash.output()}}
+    {{flash.output()}}
 </div>
-<div class="row m-t-3">
+<div class="row">
     <div class="col-lg-12">
         <div class="card ">
             <div class="card-header bg-blue">
@@ -22,75 +22,80 @@
             <div class="card-body">
                 <form method="POST" role="form" action="{{url('user/new')}}" enctype="multipart/form-data">
                     <div class="row">
+                        
                         <div class="col-md-6">
                             <div class="form-group has-feedback">
-                                <label class="control-label">Matricule<span class="text-muted"> (généré automatiquement)</span></label>
-                                {{form.render("matricule")}}
-                                <span class="fa fa-user form-control-feedback" aria-hidden="true"></span> </div>
+                             <label for="nom" class="control-label">Nom de l'utilisateur</label>
+                             {{form.render("nom")}}
+                             <span class="fa fa-user form-control-feedback" aria-hidden="true"></span> </div>
+                         </div>
+                         <div class="col-md-6">
+                            <div class="form-group has-feedback">
+                             <label for="prenom" class="control-label">Prénom</label>
+                             {{form.render("prenom")}}
+                             <span class="fa fa-user form-control-feedback" aria-hidden="true"></span> </div>
+                         </div>
+                         <div class="col-md-6">
+                            <div class="form-group has-feedback">
+                             <label for="pseudo" class="control-label">Pseudo</label>
+                             {{form.render("pseudo")}}
+                             <span class="fa fa-user form-control-feedback" aria-hidden="true"></span> </div>
+                         </div>
+                         <div class="col-md-6">
+                            <div class="form-group has-feedback">
+                                <label for="email" class="control-label">Adresse e-mail</label>
+                                {{form.render("email")}}
+                                <span class="fa fa-envelope form-control-feedback" aria-hidden="true"></span> </div>
+                                <div class="form-group">
+                                    <span id="user-availability" style="font-size:16px;"></span> 
+                                </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group has-feedback">
-                                   <label for="nom" class="control-label">Nom de l'utilisateur</label>
-                                   {{form.render("nom")}}
-                                   <span class="fa fa-user form-control-feedback" aria-hidden="true"></span> </div>
-                               </div>
-                               <div class="col-md-6">
-                                <div class="form-group has-feedback">
-                                   <label for="prenom" class="control-label">Prénom</label>
-                                   {{form.render("prenom")}}
-                                   <span class="fa fa-user form-control-feedback" aria-hidden="true"></span> </div>
-                               </div>
-                               <div class="col-md-6">
-                                <div class="form-group has-feedback">
-                                   <label for="pseudo" class="control-label">Pseudo</label>
-                                   {{form.render("pseudo")}}
-                                   <span class="fa fa-user form-control-feedback" aria-hidden="true"></span> </div>
-                               </div>
-                               <div class="col-md-6">
-                                <div class="form-group has-feedback">
-                                    <label for="email" class="control-label">Adresse e-mail</label>
-                                    {{form.render("email")}}
-                                    <span class="fa fa-envelope form-control-feedback" aria-hidden="true"></span> </div>
-                                    <div class="form-group">
-                                        <span id="user-availability" style="font-size:16px;"></span> 
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group has-feedback">
-                                        <label class="control-label">Rôle</label>
-                                        {{form.render("role")}}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group has-feedback">
-                                        <select class="custom-select form-control" {{form.render("id_cycle")}}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group has-feedback">
-                                        <select class="custom-select form-control" {{form.render("id_filiere")}}
-                                         </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group has-feedback">
-                                        <label class="control-label">Téléphone</label>
-                                        {{form.render("telephone")}}
-                                    </div>
-                                </div>
-
+                            <div class="form-group has-feedback">
+                                <label class="control-label">Téléphone</label>
+                                {{form.render("telephone")}}
                             </div>
                         </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    <label class="control-label">Rôle</label>
+                                    {{form.render("role")}}
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                        <div class="control-label">
+                            {{form.render("matricule")}}
+                            </div>
+                        </div>
+                        </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    <select class="custom-select form-control" {{form.render("id_cycle")}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group has-feedback">
+                                <select class="custom-select form-control" {{form.render("id_filiere")}}
+                            </select>
+                        </div>
                     </div>
-                    <div class="card-footer text-left">
-                      <a href="{{url('user')}}" class="btn btn-default">Annuler</a>
-                      <button type="submit" class="btn btn-success">Ajouter</button>
-                  </div>
-              </div>
-          </form>
+
+                        
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-left">
+              <a href="{{url('user')}}" class="btn btn-default">Annuler</a>
+              <button type="submit" class="btn btn-success">Ajouter</button>
+          </div>
       </div>
-  </div>
+  </form>
+</div>
+</div>
 </div>
 {% endblock %}
 {% block addjs %}
@@ -99,6 +104,7 @@
 $(document).ready(function () {
     $("select#id_cycle").hide();
     $("select#id_filiere").hide();
+    $("#matricule").hide();
     
     $("select#role").change(function (e) {
         //.preventDefault();
@@ -107,13 +113,22 @@ $(document).ready(function () {
 
             $("select#id_cycle").show();
             $("select#id_filiere").show();
-             $("select#id_cycle").attr("required","required");
-             $("select#id_filiere").attr("required","required");
-           
-            
-        }else {
+            $("#matricule").show();
+            $("select#id_cycle").attr("required","required");
+            $("select#id_filiere").attr("required","required");
+        }
+        else if(e.target.value === "PROFESSEUR") {
+
+            $("#matricule").show();
             $("select#id_cycle").hide();
             $("select#id_filiere").hide();
+            $("select#id_cycle").removeAttr("required");
+            $("select#id_filiere").removeAttr("required");
+        }
+        else {
+            $("select#id_cycle").hide();
+            $("select#id_filiere").hide();
+            $("#matricule").hide();
             $("select#id_cycle").removeAttr("required");
             $("select#id_filiere").removeAttr("required");
             
@@ -131,9 +146,9 @@ function getinfos() {
     success:function(data){
       $("#user-availability").html(data);
       $("#loaderIcon").hide();
-    },
-    error:function (){}
-  });
+  },
+  error:function (){}
+});
 }
 </script>
 {% endblock %}

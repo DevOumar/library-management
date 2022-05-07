@@ -121,7 +121,7 @@ $('body').on('click', '.supelm', function (e) {
             $(currentTr).css('background-color', '#ff9933').fadeOut(1000, function(){ $(this).remove();});
             swal(
             'Supprimé!',
-            'L\'element  a été supprimée avec succès.',
+            'L\'element  a été supprimé avec succès.',
             'success'
             );
             location.reload();

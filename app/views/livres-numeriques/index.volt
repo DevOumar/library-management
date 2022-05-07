@@ -143,7 +143,7 @@
 					$(currentTr).css('background-color', '#ff9933').fadeOut(1000, function () {
 						$(this).remove();
 					});
-					swal('Supprimé!', 'L\'element  a été supprimée avec succès.', 'success');
+					swal('Supprimé!', 'L\'element  a été supprimé avec succès.', 'success');
 					location.reload();
 				} else {
 					swal('Impossible de supprimer. Objet lié !', 'Erreur de suppression', 'error');

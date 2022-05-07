@@ -19,7 +19,7 @@ class UserForm extends Form
     public function initialize()
     {
 
-        $matricule = new Text('matricule', [ "class" => "form-control", "required" => "required", "name" => "matricule" , "value" => $this->generateCodeMatricule() , 'title' => 'Cette valeur est générée automatiquement et n\'est pas modifiable', "readonly" => "readonly"]);
+        $matricule = new Text('matricule', [ "class" => "form-control", "required" => "required", "name" => "matricule" , "id" => "matricule" , "value" => $this->generateCodeMatricule() , 'title' => 'Cette valeur est générée automatiquement et n\'est pas modifiable', "readonly" => "readonly"]);
         $matricule->addValidator(
             new PresenceOf(
                 [

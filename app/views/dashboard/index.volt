@@ -455,7 +455,7 @@
 </div>
 {% endif %}
 {% if in_array(session.role, ['ADMINISTRATEUR','PROFESSEUR']) %}
-<div  class="col-lg-7 col-xlg-9">
+<div {% if session.role != "ADMINISTRATEUR" %} class="col-lg-7 col-xlg-9" {% else %} class="col-lg-12 col-xlg-9" {% endif %}>
   <div class="info-box">
     <div class="d-flex flex-wrap">
       <div>

@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="{{url('template/vendor/select2/dist/css/select2.min.css')}}">
   <!-- dropify -->
   <link rel="stylesheet" href="{{url('template/plugins/dropify/dropify.min.css')}}">
+  {{ stylesheet_link("template/vendor/sweetalert/dist/sweetalert.css") }}
   <!-- Chartist CSS -->
 
 
@@ -32,10 +33,10 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js')}}"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js')}}"></script>
 <![endif]-->
-<style type="text/css">
-    .orange {
-      color: #ff7a00;
-    }
+  <style type="text/css">
+  .orange {
+    color: #ff7a00;
+  }
   </style>
 
   {% block addcss %}{% endblock %}
@@ -124,9 +125,9 @@
               <li class="user-header">
                 <div class="pull-left user-img"></div>
                 <p class="text-left">{{session.pseudo}} <a><i class="fa fa-circle text-success"></i> en ligne</a><small>{{session.email}}</small> </p>
-                <div class="view-link text-left"><a href="{{url('user/profil')}}">Voir le profil</a> </div>
+                <div class="view-link text-left"><a href="{{url('user/profil')}}" class="mr-10 btn btn-xs btn-secondary show-details" data-toggle="tooltip" class="mr-10 btn btn-xs btn-secondary" data-toggle="modal-show">Voir le profil</a> </div>
               </li>
-              <li><a href="{{url('user/profil')}}"><i class="icon-profile-male"></i> Mon Profil</a></li>
+              <li><a href="{{url('user/update')}}"><i class="icon-profile-male"></i> Modifier profil</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="{{url('user/resetPassword')}}"><i class="icon-gears"></i> Changer mot de passe</a></li>
               <li role="separator" class="divider"></li>
@@ -166,17 +167,16 @@
         {% if in_array(session.role, ['ADMINISTRATEUR','PROFESSEUR']) or in_array(session.libelle, ['LICENCE','MASTER','DOCTORAT']) %}
         <li><a href="{{url('memoire')}}"><i class="fa fa-folder"></i> <span>Mémoires</span></a> 
           {% endif %}
-
+          {% if session.role == 'ADMINISTRATEUR' %}
           <li class="">
             <a href="#"><i class="fa fa-spinner"></i> <span>Administration</span></a>
             <ul class="sub-menu">
               <li><a href="{{url('user')}}"><i class="fa fa-user-circle "></i><span>Gestion des utilisateurs</span></a></li>
-              {% if session.role == 'ADMINISTRATEUR' %}
+              
               <li><a href="{{url('user/administrateur')}}"><i class="fa fa-user-circle"></i>Gestion des administrateurs</a></li>
-              {% endif %}
             </ul>
           </li>
-
+          {% endif %}
           {% if session.role == 'ADMINISTRATEUR' %}
           <li class="">
             <a href="#"><i class="fa fa-spinner"></i> <span>Affectation des emprunts</span></a>
@@ -202,6 +202,8 @@
         </ul>
       </nav>
     </div>
+
+
     <!-- Main Nav --> 
 
     <!-- Content Wrapper. Contains page content -->
@@ -218,49 +220,208 @@
         {% block content %}
         {% endblock %}
       </div>
-      <!-- /.content --> 
+      <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="show-details" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="modal-title" style="display: flex"><h5 class="col-md-12"  id="show-details">Mon profil</h5><h5 style="font-size: 14px; color: gray; align-self: center;" class="col-md-5">
+                <a href="#" class="desac btn btn-danger btn-xs pull-right" data-id = {{user.id}}> <i class="fa fa-lock"></i> Désactiver mon compte</a> 
+              
+            </h5>
+          </div>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <table class="table" >
+              <tbody>
+                <tr>
+                  <td><i class="ti-target target-muted"></i> Status du compte :</td>
+                  <td>
+                    {% if user.status == 1 %}
+                    <i class="fa fa-circle text-success"></i>&nbsp;<span class="badge badge-success">Activé</span>
+                    {% else %}
+                    <i class="fa fa-circle text-danger"></i>&nbsp;<span class="badge badge-danger">Désactivé</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                <tr>
+                  <td><i class="ti-target target-muted"></i> Date de création de compte :</td>
+                  <td>
+                    {{date('d-m-Y \à H:i',strtotime(user.create_date))}}
+                  </td>
+                </tr>
+                <tr>
+                  {% if user.datelastlogin != null %}
+                  <td><i class="ti-target target-muted"></i> Dernière connexion :</td>
+                  <td>
+                    {{date("d-m-Y \à H:i:s", strtotime(user.datelastlogin))}}
+                  </td>
+                </tr>
+                {% endif %}
+                <tr>
+                  <td><i class="ti-target target-muted"></i> Connexion précédente :</td>
+                  {% if user.datepreviouslogin != null %}
+                  <td>
+                    {{date("d-m-Y \à H:i:s", strtotime(user.datepreviouslogin))}}
+                  </td>
+                </tr>
+                {% endif %}
+                {% if user.matricule is defined %}
+                <tr>
+                  <td><i class="ti-target target-muted"></i> Matricule :<span class="text-muted"> (généré automatiquement)</span></td>
+                  <td>
+                    {{user.matricule}}
+                  </td>
+                </tr>
+                {% endif %}
+                <tr>
+                 <td><i class="ti-target target-muted"></i> Nom complet :</td>
+                 <td> {{user.prenom}} {{user.nom}}</td>
+               </tr>
+               <tr>
+                <td><i class="ti-target target-muted"></i> Pseudo :</td>
+                <td> {{user.pseudo}}</td>
+              </tr>
+              <tr>
+                <td><i class="ti-target target-muted"></i> Adresse e-mail :</td>
+                <td> {{user.email}}</td>
+              </tr>
+              <tr>
+                <td><i class="ti-target target-muted"></i> Téléphone :</td>
+                <td> {{user.telephone}}</td>
+              </tr>
+              <tr>
+                <td><i class="ti-target target-muted"></i> Rôle :</td>
+                <td><span class="badge badge-success"> {{user.role}}</span></td>
+              </tr>
+              {% if session.role == 'ETUDIANT' %}
+              <tr>
+                <td><i class="ti-target target-muted"></i> Filière :</td>
+                <td> {{user.getFiliere().libelle}}</td>
+              </tr>
+              {% endif %}
+              {% if session.role == 'ETUDIANT' %}
+              <tr>
+                <td><i class="ti-target target-muted"></i> Cycle :</td>
+                <td> {{user.getCycle().libelle}}</td>
+              </tr>
+              {% endif %}
+            </tr>
+          </tbody>
+        </table>
+        <!-- /.content --> 
+      </div>
     </div>
-    <!-- /.content-wrapper -->
-    <footer class="main-footer">
-      <div class="pull-right hidden-xs">Version 1.0</div>
-Copyright © 2021 BIBLIO. All rights reserved.</footer>
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">Version 1.0</div>
+  Copyright © 2021 BIBLIO. All rights reserved.</footer>
 
-    <!-- ./wrapper --> 
+  <!-- ./wrapper --> 
 
-    <!-- jQuery 3 --> 
-    <script src="{{url('template/js/jquery.min.js')}}"></script> 
+  <!-- jQuery 3 --> 
+  <script src="{{url('template/js/jquery.min.js')}}"></script> 
 
-    <!-- v4.0.0-alpha.6 --> 
-    <script src="{{url('template/bootstrap/js/bootstrap.min.js')}}"></script> 
+  <!-- v4.0.0-alpha.6 --> 
+  <script src="{{url('template/bootstrap/js/bootstrap.min.js')}}"></script> 
 
-    <script src="{{url('template/plugins/popper/popper.min.js')}}"></script>
-    <script src="{{url('template/bootstrap/js/bootstrap.beta.min.js')}}"></script> 
+  <script src="{{url('template/plugins/popper/popper.min.js')}}"></script>
+  <script src="{{url('template/bootstrap/js/bootstrap.beta.min.js')}}"></script> 
 
-    <!-- template --> 
-    <script src="{{url('template/js/niche.js')}}"></script> 
-    <!-- DataTable --> 
-    <script src="{{url('template/plugins/datatables/jquery.dataTables.min.js')}}"></script> 
-    <script src="{{url('template/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
-    <script src="{{url('template/vendor/select2/dist/js/select2.full.min.js')}}"></script>
-    <!-- dropify --> 
-    <script src="{{url('template/plugins/dropify/dropify.min.js')}}"></script> 
-    <script src="{{url('js/function.js')}}"></script>
-
-    <script type="{{('text/javascript')}}">
-    $(".select2").select2({ 'data-placeholder': 'Choisir...' });
-    </script>
-    <script src="{{url('template/plugins/hmenu/ace-responsive-menu.js')}}" type="text/javascript"></script> 
-    <!--Plugin Initialization--> 
-    <script type="text/javascript">
-    $(document).ready(function () {
-     $("#respMenu").aceResponsiveMenu({
+  <!-- template --> 
+  <script src="{{url('template/js/niche.js')}}"></script> 
+  <!-- DataTable --> 
+  <script src="{{url('template/plugins/datatables/jquery.dataTables.min.js')}}"></script> 
+  <script src="{{url('template/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+  <script src="{{url('template/vendor/select2/dist/js/select2.full.min.js')}}"></script>
+  <!-- dropify --> 
+  <script src="{{url('template/plugins/dropify/dropify.min.js')}}"></script> 
+  <script src="{{url('js/function.js')}}"></script>
+  {{ javascript_include("template/vendor/sweetalert/dist/sweetalert.min.js") }}
+  <script type="{{('text/javascript')}}">
+  $(".select2").select2({ 'data-placeholder': 'Choisir...' });
+  </script>
+  <script src="{{url('template/plugins/hmenu/ace-responsive-menu.js')}}" type="text/javascript"></script> 
+  <!--Plugin Initialization--> 
+  <script type="text/javascript">
+  $(document).ready(function () {
+   $("#respMenu").aceResponsiveMenu({
                  resizeWidth: '768', // Set the same in Media query       
                  animationSpeed: 'fast', //slow, medium, fast
                  accoridonExpAll: false //Expands all the accordion menu on click
                });
-   });
-    </script>
+ });
+  </script>
 
-    {% block addjs %}{% endblock %}
-  </body>
-  </html>
+  <script type="text/javascript">
+  $('body').on('click', '.form, .show-details', function (e) {
+    e.preventDefault();
+    var url = $(this).attr('href');
+
+    $.ajax({
+      url: url,
+      method:'get',
+      cache: false,
+      async: true
+    })
+    .done(function(html) {
+      $('body #form .modal-body').html(html);
+      $(".select2").select2({
+        'dropdownParent' : $('#form'),
+        'data-placeholder': 'Choisir...'
+      });  
+
+      $('#form').modal('show');
+    });
+
+  });
+
+  </script>
+  <script>
+  $('body').on('click', '.desac', function (e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+    var currentTr = $(this).closest("tr");
+    swal({
+      title: 'Êtes-vous sûr ?',
+      text: 'Désactiver votre compte ! Attention, cette opération est irréversible !',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#DD6B55',
+      confirmButtonText: 'Oui, désactiver !',
+      cancelButtonText: 'Annuler',
+      closeOnConfirm: false,
+    }, function () {
+      $.ajax({
+        url: "{{url('user/desac')}}/"+id,
+        cache: false,
+        async: true
+      })
+      .done(function( result ) {
+
+        if(result = "1"){
+          $(currentTr).css('background-color', '#ff9933').fadeOut(1000, function(){ $(this).remove();});
+          swal(
+            'Désactivé!',
+            'Votre compte a été désactivé avec succès.',
+            'success'
+            );
+
+        }
+        else{
+          swal(
+            'Impossible de désactiver. Objet lié !',
+            'Erreur de suppression',
+            'error'
+            );
+        }
+      });
+    });
+
+  });
+  </script>
+  {% block addjs %}{% endblock %}
+</body>
+</html>
