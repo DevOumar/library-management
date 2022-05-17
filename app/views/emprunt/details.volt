@@ -28,7 +28,7 @@
   <div class="col-lg-8">
     <div class="info-box"> 
       <strong><i class="fa fa-spinner margin-r-5"></i> Matricule:</strong>
-      <span class="text-muted pull-right">{{emprunt.getUsers().matricule}}</span>
+      <span class="pull-right">{{emprunt.getUsers().matricule}}</span>
       <hr>
       <strong><i class="fa fa-spinner margin-r-5"></i> Nom complet:</strong>
       <span class="pull-right">{{emprunt.getUsers().prenom}} {{emprunt.getUsers().nom}}</span>
@@ -111,7 +111,6 @@
       {% endif %}
       <!-- /.box-body --> 
     </div>
-  </div>
   {% endblock %}
   {% block addjs %}
   {% endblock %}

@@ -27,7 +27,19 @@ $(document).ready(function () {
 });
 
 
+//
 
+$("select#id_filiere").hide();
+$("#id_cycle").change(function(e){
+    if("#id_cycle"){
+        $("select#id_filiere ").show();
+        $("select#id_filiere ").attr("required","required");
+    } else {
+        $("select#id_filiere").hide();
+    }
+});
+
+//
 
 
 $(document).ready(function () {

@@ -41,24 +41,30 @@
         <div class="form-group has-feedback">
           {{form.render("matricule")}}
         </div>
+        <label class="control-label">Nom<span class="text-danger"> *</span></label>
         <div class="form-group has-feedback">
           {{form.render("nom")}}
         </div>
+        <label class="control-label">Prénom<span class="text-danger"> *</span></label>
         <div class="form-group has-feedback">
           {{form.render("prenom")}}
         </div>
+        <label class="control-label">Pseudo<span class="text-danger"> *</span></label>
         <div class="form-group has-feedback">
           {{form.render("pseudo")}}
         </div>
+        <label class="control-label">Téléphone<span class="text-danger"> *</span></label>
         <div class="form-group has-feedback">
          {{form.render("telephone")}}
       </div>
+       <label class="control-label">E-mail<span class="text-danger"> *</span></label>
         <div class="form-group has-feedback">
           {{form.render("email")}}
           <div class="form-group">
             <span id="user-availability" style="font-size:16px;"></span> 
           </div>
         </div>
+         <label class="control-label">Rôle<span class="text-danger"> *</span></label>
          <div class="form-group has-feedback">
          {{form.render("role")}}
       </div>
@@ -70,9 +76,11 @@
         <select class="custom-select form-control" name="id_filiere" {{form.render("id_filiere")}}
       </select>
     </div>
+     <label class="control-label">Mot de passe<span class="text-danger"> *</span></label>
     <div class="form-group has-feedback">
       {{form.render("password")}}
     </div>
+     <label class="control-label">Retapez votre mot de passe<span class="text-danger"> *</span></label>
     <div class="form-group has-feedback">
       {{form.render("con_password")}}
     </div>

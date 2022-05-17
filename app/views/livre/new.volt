@@ -11,7 +11,7 @@
 {% endblock %}
 {% block content %}
 {{flash.output()}}
-<div class="row m-t-3">
+<div class="row">
     <div class="col-lg-12">
         <div class="card ">
             <div class="card-header bg-blue">

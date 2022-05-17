@@ -16,52 +16,51 @@
 {% block content %}
 <div class="info-box">
     <div class="col-md-6">
-     {{flash.output()}}
- </div>
- <h4 class="text-black">Liste({{memoires |length}}){% if session.role == "ADMINISTRATEUR" %} <a href="{{url('memoire/new')}}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Nouveau</a>{% endif %}</h4>
- <hr />
- <div class="table-responsive">
-  <table id="dataList" class="table table-bordered table-hover" data-name="cool-table">
-    <thead>
-      <tr>
-        <th>ID #</th>
-        <th>Thème du mémoire</th>
-        <th>Catégories</th>
-        <th>Auteurs</th>
-        <th>Filières</th>
-        <th>Rangées</th>
-        <th>Casiers</th>
-        <th>Nbre pages</th>
-        <th>Date de soutenance</th>
-        <th>Action</th>
-    </tr>
-</thead>
-<tbody>
-    {% for k,memoire in memoires %}
-    <tr>
-        <td>{{k+1}}</td>
-        <td>{{memoire.nom_memoire |upper}}</td>
-        <td>{{memoire.getCategorie().libelle}}</td>
-        <td>{{memoire.getAuteur().nom_auteur |upper}}</td>
-        <td><span class="label label-primary">{{memoire.getFiliere().libelle}}/{{memoire.getCycle().libelle}}</span></td>
+       {{flash.output()}}
+   </div>
+   <h4 class="text-black">Liste({{memoires |length}}){% if session.role == "ADMINISTRATEUR" %} <a href="{{url('memoire/new')}}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Nouveau</a>{% endif %}</h4>
+   <hr />
+   <div class="table-responsive">
+      <table id="dataList" class="table table-bordered table-hover" data-name="cool-table">
+        <thead>
+          <tr>
+            <th>ID #</th>
+            <th>Thème du mémoire</th>
+            <th>Catégories</th>
+            <th>Auteurs</th>
+            <th>Filières</th>
+            <th>Rangées</th>
+            <th>Casiers</th>
+            <th>Nbre pages</th>
+            <th>Date de soutenance</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for k,memoire in memoires %}
+        <tr>
+            <td>{{k+1}}</td>
+            <td>{{memoire.nom_memoire |upper}}</td>
+            <td>{{memoire.getCategorie().libelle}}</td>
+            <td>{{memoire.getAuteur().nom_auteur |upper}}</td>
+            <td><span class="label label-primary">{{memoire.getCycle().libelle}}/{{memoire.getFiliere().libelle}}</span></td>
 
-        <td><span class="label label-warning">{{memoire.id_ranger}}</span></td>
-        <td><span class="label label-warning">{{memoire.id_casier}}</span></td>
-        <td><span class="label label-warning">{{memoire.nbre_page}}</span></td>
-        <td><span class="label label-warning">{{date('d/m/Y',strtotime(memoire.date_soutenance))}}</span></td>
-    </td>
-    <td>
-       <a href="{{url('memoire/details/'~memoire.id)}}"><i class="fa fa-eye"></i></a>
-      {% if session.role == "ADMINISTRATEUR" %}
-       <a href="{{url('memoire/edit/'~memoire.id)}}"><i class="fa fa-edit"></i></a>
-       <a href="#" class="supelm" data-id = {{memoire.id}}><i class="fa fa-trash"></i></a>
-       {% endif %}
-   </td>
-</tr>
-{% endfor %}
+            <td><span class="label label-warning">{{memoire.id_ranger}}</span></td>
+            <td><span class="label label-warning">{{memoire.id_casier}}</span></td>
+            <td><span class="label label-warning">{{memoire.nbre_page}}</span></td>
+            <td><span class="label label-warning">{{date('d/m/Y',strtotime(memoire.date_soutenance))}}</span></td>
+        </td>
+        <td>
+         <a href="{{url('memoire/details/'~memoire.id)}}"><i class="fa fa-eye"></i></a>
+         {% if session.role == "ADMINISTRATEUR" %}
+         <a href="{{url('memoire/edit/'~memoire.id)}}"><i class="fa fa-edit"></i></a>
+         <a href="#" class="supelm" data-id = {{memoire.id}}><i class="fa fa-trash"></i></a>
+         {% endif %}
+     </td>
+ </tr>
+ {% endfor %}
 </tbody>
 </table>
-</div>
 </div>
 {% endblock %}
 {% block addjs %}
@@ -95,18 +94,18 @@ $('body').on('click', '.supelm', function (e) {
         if(result = "1"){
             $(currentTr).css('background-color', '#ff9933').fadeOut(1000, function(){ $(this).remove();});
             swal(
-            'Supprimé!',
-            'L\'element  a été supprimé avec succès.',
-            'success'
-            );
+                'Supprimé!',
+                'L\'element  a été supprimé avec succès.',
+                'success'
+                );
             location.reload();
         }
         else{
             swal(
-            'Impossible de supprimer. Objet lié !',
-            'Erreur de suppression',
-            'error'
-            );
+                'Impossible de supprimer. Objet lié !',
+                'Erreur de suppression',
+                'error'
+                );
         }
     });
 });

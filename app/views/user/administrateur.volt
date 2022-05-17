@@ -26,7 +26,7 @@
         <thead>
           <tr>
             <th>ID #</th>
-            <th>Matricule</th>
+            <th>Photo</th>
             <th>Nom & Prénom</th>
             <th>Pseudo</th>
             <th>E-mail</th>
@@ -55,9 +55,6 @@
             </div>
             {% endif %}
             {% endif %}
-            <div class="media-body">
-                <div class="text-capitalize font-weight-500 text-dark">{{user.matricule}}</div>
-            </div>
         </div>
     </td>
     
@@ -103,7 +100,7 @@ $('body').on('click', '.supelm', function (e) {
     var currentTr = $(this).closest("tr");
     swal({
       title: 'Êtes-vous sûr ?',
-      text: 'Supprimer cet étudiant !',
+      text: 'Supprimer cet administrateur !',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#DD6B55',

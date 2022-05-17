@@ -96,7 +96,6 @@
 
 </table>
 </div>
-</div>
 {% endblock %}
 {% block addjs %}
 <!-- DataTable --> 

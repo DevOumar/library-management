@@ -13,12 +13,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="info-box">
    <div class="col-md-6">
        {{flash.output()}}
    </div>
+    <div class="row">
     <div class="col-lg-12">
-      <div class="card ">
+        <div class="card ">
         <div class="card-header bg-blue">
           <h5 class="text-white m-b-0">Modifier votre profil</h5>
       </div>
@@ -91,15 +91,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
                 <div class="card-footer text-left">
                   <a href="{{url('user')}}" class="btn btn-default">Annuler</a>
                   <button type="submit" class="btn btn-success">Modifier</button>
               </div>
           </form>
       </div>
-  </div>
-</div>
+      </div>
+     
 {% endblock %}
 {% block addjs %}
 {% endblock %}

@@ -12,7 +12,7 @@
 {% block content %}
 
 {{flash.output()}}
-<div class="row m-t-3">
+<div class="row">
     <div class="col-lg-12">
         <div class="card ">
             <div class="card-header bg-blue">
@@ -56,48 +56,37 @@
                                 <div class="form-group has-feedback">
                                     <label class="control-label">Nombre de pages</label>
                                     {{form.render("nbre_page")}}
-                                    <span class="fa fa-spinner form-control-feedback" aria-hidden="true"></span> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    <label class="control-label">Date de soutenance</label>
+                                    {{form.render("date_soutenance")}}
+                                    <span class="fa fa form-control-feedback" aria-hidden="true"></span> </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group has-feedback">
-                                        <label class="control-label">Date de soutenance</label>
-                                        {{form.render("date_soutenance")}}
-                                        <span class="fa fa form-control-feedback" aria-hidden="true"></span> </div>
+                                        <label class="control-label">Cycle</label>
+                                        {{form.render("id_cycle")}}
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group has-feedback">
-                                            <label class="control-label">Filière</label>
-                                            {{form.render("id_filiere")}}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group has-feedback">
-                                            <select class="custom-select form-control" {{form.render("id_cycle")}}
-                                        </select>
-                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-feedback">
+                                        <select class="custom-select form-control" {{form.render("id_filiere")}}
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer text-left">
-                      <a href="{{url('memoire')}}" class="btn btn-default">Annuler</a>
-                      <button type="submit" class="btn btn-success">Ajouter</button>
-                  </div>
+                </div>
+                <div class="card-footer text-left">
+                  <a href="{{url('memoire')}}" class="btn btn-default">Annuler</a>
+                  <button type="submit" class="btn btn-success">Ajouter</button>
               </div>
-          </form>
-      </div>
+          </div>
+      </form>
   </div>
 </div>
-{% endblock %}
-{% block addjs %}
-<script>
-$("select#id_cycle").hide();
-$("#id_filiere").change(function(e){
-    if("select#id_filiere"){
-        $("select#id_cycle ").show();
-    } else {
-        $("select#id_cycle").hide();
-    }
-});
-</script>
+</div>
+
 {% endblock %}

@@ -21,9 +21,9 @@
    <div class="row">
     <div class="col-xl-4">
         <div class="card ">
-            <div class="card-header bg-primary">
+            <div class="card-header bg-primary d-flex justify-content-between">
                 <h5 class="text-white m-b-0">Formulaire</h5>
-                <a href="{{url('ranger')}}" class="badge badge-info pull-right">Recharger</a>
+                <a href="{{url('ranger')}}" class="badge badge-info">Recharger</a>
             </div> 
             <div class="card-body">
                 <form method="POST" {% if ranger is defined %} action="{{url('ranger/index/'~ranger.id)}}" {% else %} action="{{url('ranger/new')}}" {% endif %}>

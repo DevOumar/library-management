@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="row m-t-3">
+<div class="row">
     <div class="col-lg-12">
       <div class="card ">
         <div class="card-header bg-blue">
@@ -20,12 +20,14 @@
       <div class="card-body">
           <form method="POST" action="{{url('user/edit/'~user.id)}}">
             <div class="row">
+            {% if user.matricule is defined %}
                 <div class="col-md-6">
                     <div class="form-group has-feedback">
                         <label class="control-label">Matricule</label>
                         {{form.render("matricule")}}
                         <span class="fa fa-user form-control-feedback" aria-hidden="true"></span> </div>
                     </div>
+                    {% endif %}
                     <div class="col-md-6">
                         <div class="form-group has-feedback">
                             <label class="control-label">Nom</label>
@@ -93,7 +95,6 @@
                           </form>
                       </div>
                   </div>
-              </div>
               {% endblock %}
               {% block addjs %}
 

@@ -84,9 +84,10 @@ class CategorieController extends ControllerBase
                 $this->response->redirect("categorie");
             }
         }
-        $categorieForm = new CategorieForm();
 
+        $categorieForm = new CategorieForm();
         $this->view->form = $categorieForm;
+
     }
 
     public function updateStatusAction($id)

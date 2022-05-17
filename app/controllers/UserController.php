@@ -263,7 +263,6 @@ class UserController extends ControllerBase
 
             $user = new Users();
 
-
             if ($data["password"] == $data["con_password"]) {
                 $user->password = $this->security->hash($data["password"]);
             } else {
@@ -323,7 +322,6 @@ class UserController extends ControllerBase
         $data = $this->request->get();
         $token_activation = $this->request->get("token_activation");
         $user = Users::findFirst(['token_activation =:token_activation:', 'bind' => ['token_activation' => $token_activation]]);
-        // var_dump($user);exit();
         if ($user) {
             $user->status = 1;
             $user->token_activation = NULL;
@@ -399,7 +397,7 @@ public function profilAction(){
 
     $values = (array)$user;
 
-    $this->view->disable();
+     
 
 }
 
@@ -420,7 +418,7 @@ public function updateAction()
 
     if ($this->request->isPost()) {
         $data = $this->request->getPost();
-
+      
         if ($userForm->isValid($data, $user)) {
 
             if ($this->request->hasFiles() == true) {
@@ -445,7 +443,7 @@ public function updateAction()
                     }
                     if ($file->getName() != null && $file->getName() != "") {
                         if ($user->photo != null && file_exists($uploadDirPhoto . $user->photo) && $user->photo != "avatar1.png") {
-                            unlink($uploadDirPhoto . $user->photo);
+                          //  unlink($uploadDirPhoto . $user->photo);
                         }
 
                         $filename   = uniqid() . '_' . date('d-m-Y') . '.' . $file->getExtension();
@@ -459,11 +457,13 @@ public function updateAction()
                 }
             }
             if (!$user->save()) {
+                
             }
 
             $this->flash->success("Profil modifié avec succès !");
             $this->response->redirect("user/update");
         }
+
     }
     $this->view->form = $userForm;
     $this->view->user = $user;
@@ -659,7 +659,6 @@ public function updateStatusAction($id)
     if ($user->status == true) {
         $user->status = false;
         $user->save();
-
         echo 1;
         exit;
     } else {

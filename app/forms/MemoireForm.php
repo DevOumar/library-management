@@ -30,11 +30,11 @@ class MemoireForm extends Form
         ]);
         $this->add($id_categorie);
 
-        $id_filiere = new Select( 'id_filiere', Filiere::find(), [ "data-placeholder" => "Choisir....", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir", "required" => "required", "data-filiere" => "$id_filiere", "id" => "id_filiere", "using" => ["id", "libelle"]
+        $id_filiere = new Select( 'id_filiere', Filiere::find(), [ "data-placeholder" => "Choisir....", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir", "required" => "required",  "id" => "id_filiere", "using" => ["id", "libelle"]
         ]);
         $this->add($id_filiere);
 
-        $id_cycle = new Select( 'id_cycle', Cycle::find(), [ "data-placeholder" => "Choisir....", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir votre cycle", "required" => "required", "id" => "id_cycle", "using" => ["id", "libelle"]
+        $id_cycle = new Select( 'id_cycle', ["3" => "LICENCE", "4" => "MASTER"], [ "data-placeholder" => "Choisir....", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir votre cycle", "required" => "required", "id" => "id_cycle", "using" => ["id", "libelle"]
         ]);
         $this->add($id_cycle);
 
@@ -45,12 +45,12 @@ class MemoireForm extends Form
          $id_ranger = new Select( 'id_ranger', Ranger::find(), [ "data-placeholder" => "Choisir....", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir", "required" => "required", "id" => "id_ranger", "using" => ["id", "libelle"]
         ]);
         $this->add($id_ranger);
-         $nbre_page = new Text('nbre_page', [ "class" => "form-control" ]);
+         $nbre_page = new Numeric('nbre_page', [ "class" => "form-control", "required" => "required" ]);
         $this->add($nbre_page);
          $id_auteur = new Select( 'id_auteur', Auteur::find(), [ "data-placeholder" => "Choisir....", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir", "required" => "required", "id" => "id_auteur", "using" => ["id", "nom_auteur"]
         ]);
         $this->add($id_auteur);
-         $date_soutenance = new Date('date_soutenance', [ "class" => "form-control" ]);
+         $date_soutenance = new Date('date_soutenance', [ "class" => "form-control" , "min" => date('Y-m-d', strtotime(date('Y-m-d'). ' - 15 year')), "required" => "required"]);
         $this->add($date_soutenance);
 
        

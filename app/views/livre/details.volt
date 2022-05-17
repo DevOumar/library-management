@@ -26,7 +26,7 @@
     <div class="col-lg-8">
     <div class="info-box">
         <strong><i class="fa fa-spinner margin-r-5"></i> Nom du livre:</strong>
-        <span class="text-muted pull-right">{{livre.nom_livre |upper}}</span>
+        <span class="pull-right">{{livre.nom_livre |upper}}</span>
         <hr>
         <strong><i class="fa fa-spinner margin-r-5"></i> Catégorie:</strong>
         <span class="pull-right label">{{livre.getCategorie().libelle |upper}}</span>
@@ -59,7 +59,6 @@
       </div>
     </div>
 
-  </div>
   
   {% endblock %}
   {% block addjs %}

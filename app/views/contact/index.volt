@@ -123,9 +123,9 @@
                 <textarea class="form-control" name="message" placeholder="Message" required="required"></textarea>
               </div>
             </div>
-            
-            <button type="submit" class="btn btn-success mt-3">Envoyer</button>
-            
+            <div class="rounded mx-auto d-block">
+            <button type="submit" class="btn btn-success rounded mx-auto d-block">Envoyer</button>
+            </div>
           </form>
 
         </div>

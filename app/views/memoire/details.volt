@@ -25,7 +25,7 @@
     <div class="col-lg-8">
     <div class="info-box">
         <strong><i class="fa fa-spinner margin-r-5"></i> Nom du mémoire:</strong>
-        <span class="text-muted pull-right">{{memoire.nom_memoire}}</span>
+        <span class="pull-right">{{memoire.nom_memoire}}</span>
         <hr>
         <strong><i class="fa fa-spinner margin-r-5"></i> Catégorie:</strong>
         <span class="pull-right">{{memoire.getCategorie().libelle |upper}}</span>
@@ -49,10 +49,11 @@
         <span class="pull-right label label-warning">{{date('d-m-Y',strtotime(memoire.date_soutenance))}} </span>
         </div>
         <div class="text-left">
-        <a href="{{url('livre')}}" class="btn btn-default">Retourner</a>
+        <a href="{{url('memoire')}}" class="btn btn-default">Retourner</a>
       </div>
       </div>
       <!-- /.box-body --> 
     </div>
+  </div>
   </div>
   {% endblock %}

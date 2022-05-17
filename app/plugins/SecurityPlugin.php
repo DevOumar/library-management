@@ -44,24 +44,23 @@ class SecurityPlugin extends Injectable
 
         //Resources accessibles à tous les utilisateurs
         $privateResources = array(
-            'dashboard'                 => ['index'],
-            'notification'                 => ['index'],
-            'contact'                 => ['index'],
-            'accueil'                 => ['index'],
-            'categorie'                  => ['index', 'new', 'delete', 'updateStatus'],
-            'recommandation'                  => ['index','details', 'new', 'edit', 'delete'],
-            'auteur'                    => ['index', 'new', 'delete'],
-            'livres-numeriques'                    => ['index', 'details', 'new', 'edit', 'delete'],
-            'cycle'                    => ['index', 'new', 'delete'],
-            'annee_academique'                    => ['index', 'details', 'new', 'edit', 'delete', '_createSession', 'anneeAcad'],
-            'ranger'                    => ['index', 'new', 'delete'],
-            'casier'                    => ['index', 'new', 'delete'],
-            'filiere'                    => ['index', 'new', 'delete'],
-            'livre'                    => ['index', 'details', 'edit', 'new', 'search', 'delete'],
-            'memoire'          => ['index', 'details', 'edit', 'new', 'delete'],
+            'dashboard'           => ['index'],
+            'notification'        => ['index'],
+            'contact'             => ['index'],
+            'accueil'             => ['index'],
+            'categorie'           => ['index', 'new', 'delete', 'updateStatus'],
+            'recommandation'      => ['index','details', 'new', 'edit', 'delete'],
+            'auteur'              => ['index', 'new', 'delete'],
+            'livres-numeriques'   => ['index', 'details', 'new', 'edit', 'delete'],
+            'cycle'               => ['index', 'new', 'delete'],
+            'ranger'              => ['index', 'new', 'delete'],
+            'casier'              => ['index', 'new', 'delete'],
+            'filiere'             => ['index', 'new', 'delete'],
+            'livre'               => ['index', 'details', 'edit', 'new', 'search', 'delete'],
+            'memoire'             => ['index', 'details', 'edit', 'new', 'delete'],
 
-            'user'         => ['index', 'new', 'details', 'edit', 'delete', 'updateStatus', 'desac', 'inscription', 'connexion', '_createSession', 'profil', 'update', 'resetPassword', 'resetpasswordUser', 'confirmation', 'activation', 'infos', 'administrateur'],
-            'emprunt'                    => ['index', 'new', 'edit', 'details', 'delete', 'pdf', 'infos', 'notifier', 'verifStock', 'historique','total']
+            'user'                => ['index', 'new', 'details', 'edit', 'delete', 'updateStatus', 'desac', 'inscription', 'connexion', '_createSession', 'profil', 'update', 'resetPassword', 'resetpasswordUser', 'confirmation', 'activation', 'infos', 'administrateur'],
+            'emprunt'             => ['index', 'new', 'edit', 'details', 'delete', 'pdf', 'infos', 'notifier', 'verifStock', 'historique','total']
         );
 
         foreach ($privateResources as $resource => $actions) {

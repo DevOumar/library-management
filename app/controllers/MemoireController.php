@@ -36,8 +36,8 @@ class MemoireController extends ControllerBase
                 $this->response->redirect("memoire");
             }
         }
+        
         $memoireForm = new MemoireForm();
-
         $this->view->form = $memoireForm;
     }
 

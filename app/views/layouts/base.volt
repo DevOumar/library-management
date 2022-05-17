@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -116,7 +116,7 @@
             <img src="{{url('img/avatar1.png')}}" class="user-image" alt="User Image">
             {% endif %}
             {% endif %}
-            <span class="d-none d-lg-inline">
+            <span class="d-none d-lg-inline" id="logged-user" data-name="{{session.prenom}} {{session.nom |upper}}">
               {% if in_array(session.role, ['ADMINISTRATEUR']) %}{{session.prenom}} {{session.nom |upper}} | {{session.role}}{% endif %}
               {% if in_array(session.role, ['PROFESSEUR']) %}{{session.prenom}} {{session.nom |upper}} | {{session.role}}{% endif %}
               {% if in_array(session.role, ['ETUDIANT']) %}{{session.prenom}} {{session.nom |upper}} | {{session.libelle}}{% endif %}
@@ -131,7 +131,7 @@
               <li role="separator" class="divider"></li>
               <li><a href="{{url('user/resetPassword')}}"><i class="icon-gears"></i> Changer mot de passe</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="{{url('user/logout')}}"><i class="fa fa-power-off"></i> Se déconnecter</a></li>
+              <li><a href="{{url('user/logout')}}"><i class="fa fa-power-off"></i>Se déconnecter</a></li>
             </ul>
           </li>
         </ul>
@@ -310,9 +310,13 @@
             </tr>
           </tbody>
         </table>
+      
         <!-- /.content --> 
+     
       </div>
+      
     </div>
+  </div>
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -322,14 +326,15 @@
   <!-- ./wrapper --> 
 
   <!-- jQuery 3 --> 
+
   <script src="{{url('template/js/jquery.min.js')}}"></script> 
 
   <!-- v4.0.0-alpha.6 --> 
+  <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
   <script src="{{url('template/bootstrap/js/bootstrap.min.js')}}"></script> 
 
   <script src="{{url('template/plugins/popper/popper.min.js')}}"></script>
   <script src="{{url('template/bootstrap/js/bootstrap.beta.min.js')}}"></script> 
-
   <!-- template --> 
   <script src="{{url('template/js/niche.js')}}"></script> 
   <!-- DataTable --> 
@@ -339,10 +344,12 @@
   <!-- dropify --> 
   <script src="{{url('template/plugins/dropify/dropify.min.js')}}"></script> 
   <script src="{{url('js/function.js')}}"></script>
+  <script src="{{url('js/dateheure.js')}}"></script>
   {{ javascript_include("template/vendor/sweetalert/dist/sweetalert.min.js") }}
   <script type="{{('text/javascript')}}">
   $(".select2").select2({ 'data-placeholder': 'Choisir...' });
   </script>
+
   <script src="{{url('template/plugins/hmenu/ace-responsive-menu.js')}}" type="text/javascript"></script> 
   <!--Plugin Initialization--> 
   <script type="text/javascript">
@@ -354,9 +361,8 @@
                });
  });
   </script>
-
   <script type="text/javascript">
-  $('body').on('click', '.form, .show-details', function (e) {
+  $('body').on('click', '.show-details', function (e) {
     e.preventDefault();
     var url = $(this).attr('href');
 
@@ -367,12 +373,7 @@
       async: true
     })
     .done(function(html) {
-      $('body #form .modal-body').html(html);
-      $(".select2").select2({
-        'dropdownParent' : $('#form'),
-        'data-placeholder': 'Choisir...'
-      });  
-
+      $('body #form .modal-body').html(html);  
       $('#form').modal('show');
     });
 
@@ -422,6 +423,8 @@
 
   });
   </script>
-  {% block addjs %}{% endblock %}
+  {% block addjs %}
+  
+  {% endblock %}
 </body>
 </html>

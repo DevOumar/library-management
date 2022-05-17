@@ -1,5 +1,6 @@
 
 <?php
+
 use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
@@ -19,17 +20,10 @@ class UserForm extends Form
     public function initialize()
     {
 
-        $matricule = new Text('matricule', [ "class" => "form-control", "required" => "required", "name" => "matricule" , "id" => "matricule" , "value" => $this->generateCodeMatricule() , 'title' => 'Cette valeur est générée automatiquement et n\'est pas modifiable', "readonly" => "readonly"]);
-        $matricule->addValidator(
-            new PresenceOf(
-                [
-                    'message' => 'matricule obligatoire',
-                ]
-            )
-        );
+        $matricule = new Text('matricule', ["class" => "form-control", "name" => "matricule", "id" => "matricule", "value" => $this->generateCodeMatricule(), 'title' => 'Cette valeur est générée automatiquement et n\'est pas modifiable', "readonly" => "readonly"]);
         $this->add($matricule);
 
-        $nom = new Text('nom', [ "class" => "form-control", "required" => "required", "name" => "nom", "placeholder" => "Nom"]);
+        $nom = new Text('nom', ["class" => "form-control", "required" => "required", "name" => "nom", "placeholder" => "Nom"]);
         $nom->addValidator(
             new PresenceOf(
                 [
@@ -39,7 +33,7 @@ class UserForm extends Form
         );
         $this->add($nom);
 
-        $prenom = new Text('prenom', [ "class" => "form-control", "required" => "required", "name" => "prenom", "placeholder" => "Prénom" ]);
+        $prenom = new Text('prenom', ["class" => "form-control", "required" => "required", "name" => "prenom", "placeholder" => "Prénom"]);
         $prenom->addValidator(
             new PresenceOf(
                 [
@@ -49,7 +43,7 @@ class UserForm extends Form
         );
         $this->add($prenom);
 
-        $pseudo = new Text('pseudo', [ "class" => "form-control", "required" => "required", "name" => "pseudo", "placeholder" => "Pseudo" ]);
+        $pseudo = new Text('pseudo', ["class" => "form-control", "required" => "required", "name" => "pseudo", "placeholder" => "Pseudo"]);
         $pseudo->addValidator(
             new PresenceOf(
                 [
@@ -59,15 +53,17 @@ class UserForm extends Form
         );
         $this->add($pseudo);
 
-        $id_cycle = new Select( 'id_cycle', Cycle::find(), [ "data-placeholder" => "Choisir....", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir votre cycle", "id" => "id_cycle", "using" => ["id", "libelle"]
-    ]);
+        $id_cycle = new Select('id_cycle', Cycle::find(), [
+            "data-placeholder" => "Choisir....", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir votre cycle", "id" => "id_cycle", "using" => ["id", "libelle"]
+        ]);
         $this->add($id_cycle);
 
-        $id_filiere = new Select( 'id_filiere', Filiere::find(), [ "data-placeholder" => "Choisir....", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir votre filière", "id" => "id_filiere", "using" => ["id", "libelle"]
-    ]);
+        $id_filiere = new Select('id_filiere', Filiere::find(), [
+            "data-placeholder" => "Choisir....", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir votre filière", "id" => "id_filiere", "using" => ["id", "libelle"]
+        ]);
         $this->add($id_filiere);
 
-        $email = new Email('email', [ "class" => "form-control", "required" => "required", "name" => "email", "placeholder" => "E-mail", "onBlur" => "getinfos()", "id" => "email" ]);
+        $email = new Email('email', ["class" => "form-control", "required" => "required", "name" => "email", "placeholder" => "E-mail", "onBlur" => "getinfos()", "id" => "email"]);
         $email->addValidator(
             new PresenceOf(
                 [
@@ -77,10 +73,10 @@ class UserForm extends Form
         );
         $this->add($email);
 
-        $photo = new File('photo', [ "id" => "input-file-now", "enctype" => "multipart/form-data", "method"  => "post", "class" => "dropify"]);
+        $photo = new File('photo', ["id" => "input-file-now", "enctype" => "multipart/form-data", "method"  => "post", "class" => "dropify"]);
         $this->add($photo);
 
-        $telephone = new Numeric('telephone', [ "class" => "form-control", "required" => "required", "name" => "telephone", "id" => "telephone"]);
+        $telephone = new Numeric('telephone', ["class" => "form-control", "required" => "required", "name" => "telephone", "id" => "telephone", "placeholder" => "+22376767676"]);
         $telephone->addValidator(
             new PresenceOf(
                 [
@@ -90,35 +86,28 @@ class UserForm extends Form
         );
         $this->add($telephone);
 
-        $role = new Select( 'role', ["ETUDIANT" => "Étudiant", "PROFESSEUR" => "Professeur","ADMINISTRATEUR" => "Administrateur"], [ "class" => "form-control", "required" => "required","class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir votre rôle" ]);
-        
+        $role = new Select('role', ["ETUDIANT" => "Étudiant", "PROFESSEUR" => "Professeur", "ADMINISTRATEUR" => "Administrateur"], ["class" => "form-control", "required" => "required", "class" => "form-control select2", "style" => "width: 100%;", "useEmpty" => true, "emptyText" => "Choisir votre rôle"]);
+
         $this->add($role);
 
-        $password = new Password('password', [ "class" => "form-control", "required" => "required", "name" => "password", "id" => "current-password", "placeholder" => "Mot de passe" ]);
+        $password = new Password('password', ["class" => "form-control", "required" => "required", "name" => "password", "id" => "current-password", "placeholder" => "Mot de passe"]);
 
         $this->add($password);
 
-        $con_password = new Password('con_password', [ "class" => "form-control", "required" => "required", "name" => "con_password", "id" => "con-password", "placeholder" => "Retapez votre mot de passe", "onkeyup" => "verif();" ]);
+        $con_password = new Password('con_password', ["class" => "form-control", "required" => "required", "name" => "con_password", "id" => "con-password", "placeholder" => "Retapez votre mot de passe", "onkeyup" => "verif();"]);
 
         $this->add($con_password);
-        
-        $status = new Select( 'status', ["1" => "Activé", "0" => "Désactivé"], [ "class" => "form-control", "required"=> "required", "useEmpty" => true, "emptyText" => "Choisir" ]);
-        
+
+        $status = new Select('status', ["1" => "Activé", "0" => "Désactivé"], ["class" => "form-control", "required" => "required", "useEmpty" => true, "emptyText" => "Choisir"]);
+
         $this->add($status);
-
-
-
     }
 
+    private function generateCodeMatricule()
+    {
 
-
-
-
-    private function generateCodeMatricule(){
         $random = new Random();
 
-        return strtoupper('mae-').strtoupper($random->base62(8));
-
-    } 
-    
+        return strtoupper('mae-') . strtoupper($random->base62(8));
+    }
 }

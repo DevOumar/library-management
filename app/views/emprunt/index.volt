@@ -141,7 +141,6 @@ Emprunt
 				</tbody>
 			</table>
 		</div>
-	</div>
 	{% endblock %}
 	{% block addjs %}
 	<!-- DataTable -->

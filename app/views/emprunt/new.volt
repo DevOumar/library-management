@@ -12,9 +12,9 @@
 {% block content %}
 
 <div class="col-md-6">
- {{flash.output()}}
+   {{flash.output()}}
 </div>
-<div class="row m-t-3">
+<div class="row">
     <div class="col-lg-12">
         <div class="card ">
             <div class="card-header bg-blue">
@@ -67,7 +67,6 @@
 </div>
 {% endblock %}
 {% block addjs %}
-<script type="text/javascript" src="{{url('js/emprunt.js')}}"></script>
 <script>
     // function for get student name
     function getinfos() {

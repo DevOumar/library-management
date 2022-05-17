@@ -13,11 +13,14 @@
 <div class="col-md-6">
  {{flash.output()}}
 </div>
-<div class="col-lg-6">
-  <div class="card">
-    <div class="card-body">
-      <h4 style="color:blue;">Reinitialisation du Mot de passe</h4>
-      <form class="form "method="POST" action="{{url('user/resetPassword')}}">
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card ">
+        <div class="card-header bg-blue">
+          <h5 class="text-white m-b-0">Reinitialisation du Mot de passe</h5>
+      </div>
+      <div class="card-body">
+      <form class="form" method="POST" action="{{url('user/resetPassword')}}">
         <div class="form-group">
           <label for="pwd1">Mot de passe actuel</label>
           <div class="input-group">
@@ -45,6 +48,8 @@
     </div>
   </div>
 </div>
-{% endblock %}
-{% block addjs %}
+</div>
+</div>
+</div>
+
 {% endblock %}
